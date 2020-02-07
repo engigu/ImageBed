@@ -5,8 +5,13 @@ from sanic import Sanic
 from sanic.response import json as sanic_json
 
 from config import Config
+from core.model import SQLiteModel
+from core.schema import init_sqlite
 
 app = Sanic(__name__)
+SQLITE_MODEL = SQLiteModel()
+
+init_sqlite() # 初始化
 
 
 async def send_requstes(method="GET", **kwargs):
@@ -27,7 +32,7 @@ async def send_requstes(method="GET", **kwargs):
 #     print(res)
 
 def msg(code=0, msg='ok!'):
-    return sanic_json({'code':code, 'msg': msg})
+    return sanic_json({'code': code, 'msg': msg})
 
 
 def generate_file_hash(file):
@@ -39,11 +44,14 @@ async def upload(request):
     # 文件上传
     # https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
     pic_file = request.files.get('file')  # type body name
+    print('*'*50, 'pic_file')
     # 文件类型校验
     if Config.ONLY_UPLOAD_IMG_FILES and 'image' not in pic_file.type:
-        return msg(code=-1, msg='请务必只上传图片文件！')  
-        
+        return msg(code=-1, msg='请务必只上传图片文件！')
+
     file_hash = generate_file_hash(pic_file.body)
+    print('*'*50, 'generate_file_hash')
+
     file_name = '%s.jpg' % file_hash
     # print(file_name)
     file_content = base64.b64encode(pic_file.body).decode()
@@ -57,7 +65,11 @@ async def upload(request):
             "message": "upload %s by api" % file_name, "branch": Config.BRANCH
         }
     }
+    record = SQLITE_MODEL.get_one_record(name=file_name)
+    print('record',record)
+    print('*'*50, 'before send_requstes')
     result = await send_requstes('POST', **kwargs)
+    print('*'*50, 'after send_requstes')
 
     if '已存在' in str(result):
         return sanic_json({'code': 0, 'msg': '文件已经存在！'})

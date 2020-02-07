@@ -14,7 +14,7 @@ class Config:
     # PATH
     STROE_PATH = 'store'
 
-    # recursive 项目目录的递归深度
+    # recursive 项目目录的递归深度(查询项目bole目录)
     RECURSIVE = 2
 
     # 是否只能上传图片文件
@@ -22,3 +22,6 @@ class Config:
 
     # API server worker数
     API_SERVER_WORKERS = 4
+
+    # sqlite 数据库路径
+    SQLITE_URI = 'sqlite:///sqlite_db/sqlite.db'

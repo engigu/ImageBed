@@ -1,134 +1,140 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-<title>Image Bed</title>
-<link rel="icon" href="./favicon.ico" type="image/x-icon">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer" content="no-referrer" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="js/clipboard.min.js"></script>
-<script src="./js/up.itorr.js"></script>
-<script src="./js/clipboard.min.js"></script>
-<script>
+	<title>Image Bed</title>
+	<link rel="icon" href="./favicon.ico" type="image/x-icon">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="referrer" content="no-referrer" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script
+		type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<link href="css/style.css" rel='stylesheet' type='text/css' />
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="js/clipboard.min.js"></script>
+	<script src="./js/up.itorr.js"></script>
+	<script src="./js/clipboard.min.js"></script>
+	<script>
 		//自定义弹框
-		function Toast(msg,duration){
-			duration=isNaN(duration)?3000:duration;
+		function Toast(msg, duration) {
+			duration = isNaN(duration) ? 3000 : duration;
 			var m = document.createElement('div');
 			m.innerHTML = msg;
-			m.style.cssText="width: 60%;min-width: 150px;opacity: 0.7;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 5px;position: fixed;top: 40%;left: 20%;z-index: 999999;background: rgb(0, 0, 0);font-size: 13px;";
+			m.style.cssText = "width: 60%;min-width: 150px;opacity: 0.7;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 5px;position: fixed;top: 40%;left: 20%;z-index: 999999;background: rgb(0, 0, 0);font-size: 13px;";
 			document.body.appendChild(m);
-			setTimeout(function() {
+			setTimeout(function () {
 				var d = 0.5;
 				m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
 				m.style.opacity = '0';
-				setTimeout(function() { document.body.removeChild(m) }, d * 1000);
+				setTimeout(function () { document.body.removeChild(m) }, d * 1000);
 			}, duration);
 		}
-</script> 
-<script>
-	$(function () {
-		$.ajaxSettings.async = false; 
+	</script>
+	<script>
+		$(function () {
+			$.ajaxSettings.async = false; // 取消异步
 
-		$('.upload_area').click(function () {
-		$('.file_upload').click();
-	})
-	
-	$('.file_upload').change(function () {
-		// alert(123);
-		if(!this.files||!this.files[0])
-		return alert('删除成功！或选取文件出错！')
-		var this_image_file=this.files[0]
-		if(this_image_file.type.indexOf('image')!=0)
-		return alert('这不是一个图像或音频！')
-		UP(this_image_file,function(wbpid){
-		show_image.src='https://ww1.sinaimg.cn/large/'+wbpid +'.jpg';
-		link.href='https://ww1.sinaimg.cn/large/'+ wbpid +'.jpg';
-		inner_content='<div class="desc">'+
-				'<span class="desc1" id="info"><h4>以下是分别是 原始、UBB 和 MD 链接：</h4></span>'+	
-			'<div class="input_box">'+
-				'<input type="text" class="in" id="url_1" readonly="true" data-clipboard-target="p" onfocus="this.select()" value='+'https://ww1.sinaimg.cn/large/'+wbpid+'.jpg />'+
-				'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_1">复制</button>'+
-			'</div>'+
-			'<div class="input_box">'+
-				'<input type="text" class="in" id="url_2" readonly="true" data-clipboard-target="p" onfocus="this.select()" value='+'[img]'+'https://ww1.sinaimg.cn/large/'+wbpid+'.jpg[/img] />'+
-				'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_2">复制</button>'+
-			'</div>'+
-			'<div class="input_box">'+
-				'<input type="text" class="in" id="url_3" readonly="true" data-clipboard-target="p" onfocus="this.select()" value='+'![image]'+'(https://ww1.sinaimg.cn/large/'+wbpid +'.jpg) />'+
-				'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_3">复制</button>'+
-			'</div>';
-		$('.inner_html').html(inner_content);
-		},function(){
-			alert('上传文件出错了！')
-		},function(process){
-			$('.inner_html').html('<div class="desc1">上传进度为：'+(process*99).toFixed(2)+' %');
-			
-			$('#show_image').load(function () {
-				window.location.href = '#info';
-			})				
-		})
+			$('.upload_area').click(function () {
+				$('.file_upload').click();
+			})
 
-		var clipboard = new ClipboardJS('.btn');
-		clipboard.on('success', function(e) {
-			Toast("已成功复制剪贴板！",1500);
+			$('.file_upload').change(function () {
+				if (!this.files || !this.files[0])
+					return alert('删除成功！或选取文件出错！')
+				var this_image_file = this.files[0]
+				if (this_image_file.type.indexOf('image') != 0)
+					return alert('这不是一个图像或音频！')
+				UP(this_image_file, function (url) {
+					console.log(url);
+					show_image.src = url;
+					link.href = url;
+					inner_content = '<div class="desc">' +
+						'<span class="desc1" id="info"><h4>以下是分别是 原始、UBB 和 MD 链接：</h4></span>' +
+						'<div class="input_box">' +
+						'<input type="text" class="in" id="url_1" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + url + ' />' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_1">复制</button>' +
+						'</div>' +
+						'<div class="input_box">' +
+						'<input type="text" class="in" id="url_2" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + '[img]' + url + '[/img] />' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_2">复制</button>' +
+						'</div>' +
+						'<div class="input_box">' +
+						'<input type="text" class="in" id="url_3" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + '![image](' + url + ') />' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_3">复制</button>' +
+						'</div>';
+					$('.inner_html').html(inner_content);
+				}, function () {
+					alert('上传文件出错了！')
+				}, function (process) {
+					$('.inner_html').html('<div class="desc1">上传进度为：' + (process * 99).toFixed(2) + ' %');
+
+					$('#show_image').load(function () {
+						window.location.href = '#info';
+					})
+				})
+
+				var clipboard = new ClipboardJS('.btn');
+				clipboard.on('success', function (e) {
+					Toast("已成功复制剪贴板！", 1500);
+				});
+				clipboard.on('error', function (e) {
+					Toast("复制失败，请手动选择进行复制!", 1500);
+				});
+			})
 		});
-		clipboard.on('error', function(e) {
-			Toast("复制失败，请手动选择进行复制!",1500);
-		});
-	})
-	});
-</script>
-<script src="js/menu_jquery.js"></script>
+	</script>
+	<script src="js/menu_jquery.js"></script>
 </head>
+
 <body>
-	<div class="header">	
-      <div class="container"> 
-  	     <div class="logo">
-			<h1><a href="#">Image Bed</a></h1>
-		 </div>
-		
-		 <div class="clearfix"></div>
+	<div class="header">
+		<div class="container">
+			<div class="logo">
+				<h1><a href="#">Image Bed</a></h1>
+			</div>
+
+			<div class="clearfix"></div>
 		</div>
 	</div>
 	<div class="banner">
 		<div class="container">
 			<div class="span_1_of_1">
-			    <h2>Photos, illustrations by<br> Creatives all over the world.</h2>
-			    <div class="search">
+				<h2>Photos, illustrations by<br> Creatives all over the world.</h2>
+				<div class="search">
 					<div class="upload_area" id="upload_area">
 						Click Me and Start
-					</div>			
-	            </div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<input type="file" class="file_upload" id="file_upload" style="opacity: 0;display:none" accept="image/*"/>
+	<input type="file" class="file_upload" id="file_upload" style="opacity: 0;display:none" accept="image/*" />
 	<div class="inner_html" id="inner_html">
 		<!-- <span class="desc2"><h6>允许上传的图片类型JPG、JPEG、PNG、GIF；图片大小 6M 以内。</h6></span> -->
 	</div>
 
-	<a href="" id="link" ><div class="img_uped_show"><img id="show_image" ></div></a>	
+	<a href="" id="link">
+		<div class="img_uped_show"><img id="show_image"></div>
+	</a>
 
 	<!-- <div class="grid_1"> -->
-		<h3 class="bottom_h3">Simple Image Uploader.</h3>
-		
-		<!-- <div class="col-md-2 col_1"> -->
-		
+	<h3 class="bottom_h3">Simple Image Uploader.</h3>
+
+	<!-- <div class="col-md-2 col_1"> -->
+
 	<!-- </div> -->
 
 	<div class="grid_3">
-	  <div class="container">
-	  	 <ul id="footer-links">
-			<li><a href="javascript:void(0)">Support</a></li>
-			<li><a href="javascript:void(0)">FAQ</a></li>
-			<li><a href="javascript:void(0)">Contact Me</a></li>
-         </ul>
-         <p>Copyright &copy; 2018. All rights reserved.<a target="_blank" href="#"></a></p>
-	  </div>
+		<div class="container">
+			<ul id="footer-links">
+				<li><a href="javascript:void(0)">Support</a></li>
+				<li><a href="javascript:void(0)">FAQ</a></li>
+				<li><a href="javascript:void(0)">Contact Me</a></li>
+			</ul>
+			<p>Copyright &copy; 2020. All rights reserved.<a target="_blank" href="#"></a></p>
+		</div>
 	</div>
 </body>
-</html>		
+
+</html>

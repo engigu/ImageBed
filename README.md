@@ -1,1 +1,4 @@
 # imagebed
+
+
+curl 'http://0.0.0.0:9900/api/upload' -H 'Connection: keep-alive' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36' -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryAgPT9slG9qZ5qYmE' -H 'Accept: */*' -H 'Origin: http://0.0.0.0:9900' -H 'Accept-Language: zh-CN,zh;q=0.9,it;q=0.8' --data-binary $'------WebKitFormBoundaryAgPT9slG9qZ5qYmE\r\nContent-Disposition: form-data; name="file"; filename="BurgTrifels_ZH-CN1204167722_1920x1080.jpg"\r\nContent-Type: image/jpeg\r\n\r\n\r\n------WebKitFormBoundaryAgPT9slG9qZ5qYmE--\r\n' --compressed --insecure

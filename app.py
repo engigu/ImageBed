@@ -11,12 +11,12 @@ from core.schema import init_sqlite
 app = Sanic(__name__)
 SQLITE_MODEL = SQLiteModel()
 
-init_sqlite() # 初始化
+init_sqlite()  # 初始化
 
 
 async def send_requstes(method="GET", **kwargs):
     async with aiohttp.request(method, **kwargs) as response:
-        # content_type=None 是因为aio默认会校验 response headers 里的content-type: text会直接报错，
+        # content_type=None 是因为aiohttp默认会校验 response headers 里的content-type: text会直接报错，
         # 直接关闭校验
         return await response.json(content_type=None)
 
@@ -31,12 +31,18 @@ async def send_requstes(method="GET", **kwargs):
 #     res = await send_requstes('GET', **kwargs)
 #     print(res)
 
-def msg(code=0, msg='ok!'):
-    return sanic_json({'code': code, 'msg': msg})
+def msg(code=0, msg='ok!', url=''):
+    return sanic_json({'code': code, 'msg': msg, 'url': url})
 
 
 def generate_file_hash(file):
     return hashlib.md5(file).hexdigest()
+
+
+def format_pic_url(file_name):
+    return 'https://gitee.com/{owner}/{repo}/raw/{branch}/{path}/{file_name}'.format(
+        owner=Config.OWNER, repo=Config.REPO, path=Config.STROE_PATH, file_name=file_name, branch=Config.BRANCH
+    )
 
 
 @app.route("/api/upload", methods=['POST'])
@@ -44,35 +50,38 @@ async def upload(request):
     # 文件上传
     # https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
     pic_file = request.files.get('file')  # type body name
-    print('*'*50, 'pic_file')
     # 文件类型校验
     if Config.ONLY_UPLOAD_IMG_FILES and 'image' not in pic_file.type:
         return msg(code=-1, msg='请务必只上传图片文件！')
 
     file_hash = generate_file_hash(pic_file.body)
-    print('*'*50, 'generate_file_hash')
 
-    file_name = '%s.jpg' % file_hash
-    # print(file_name)
+    file_name = '%s.%s' % (file_hash, pic_file.name.split('.')[-1])
     file_content = base64.b64encode(pic_file.body).decode()
-    # print(file_content)
+    record = SQLITE_MODEL.get_one_record(name=file_name)
+    if record:
+        # 之前有记录
+        return msg(msg='上传记录存在！', url=format_pic_url(file_name))
+
     kwargs = {
         'url': 'https://gitee.com/api/v5/repos/{owner}/{repo}/contents/{path}/{file_name}'.format(
             owner=Config.OWNER, repo=Config.REPO, path=Config.STROE_PATH, file_name=file_name
         ),
         'data': {
             "access_token": Config.ACCESS_TOKEN, "content": file_content,
-            "message": "upload %s by api" % file_name, "branch": Config.BRANCH
+            "message": "upload %s by api" % pic_file.name, "branch": Config.BRANCH
         }
     }
-    record = SQLITE_MODEL.get_one_record(name=file_name)
-    print('record',record)
-    print('*'*50, 'before send_requstes')
     result = await send_requstes('POST', **kwargs)
-    print('*'*50, 'after send_requstes')
+
+    # 添加记录
+    SQLITE_MODEL.add_one_record(name=file_name)
 
     if '已存在' in str(result):
-        return sanic_json({'code': 0, 'msg': '文件已经存在！'})
+        return msg(msg='文件已经存在！', url=format_pic_url(file_name))
+    else:
+        return msg(msg='上传成功！', url=format_pic_url(file_name))
+
 
 #     {
 #     "hello":{
@@ -116,7 +125,7 @@ async def upload(request):
 #         }
 #     }
 # }
-    return sanic_json({"hello": result})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, workers=Config.API_SERVER_WORKERS)

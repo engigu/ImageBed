@@ -6,7 +6,8 @@ services:
       dockerfile: Dockerfile
     image: "imagebed-server"
     volumes:
-      - .:/app
+      - ./:/app
+      - ./sqlite_db:/app/sqlite_db
   
   nginx:
     image: nginx:stable-alpine

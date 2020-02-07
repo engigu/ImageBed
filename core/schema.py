@@ -1,3 +1,4 @@
+from config import Config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
@@ -7,17 +8,10 @@ from contextlib import contextmanager
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-from config import Config
 
 Base = declarative_base()
 
 
-def init_sqlite():
-    path = Config.SQLITE_URI.split('sqlite:///')[-1]
-    db_path = '/'.join(path.split('/')[:-1])
-    if not os.path.exists(db_path):
-        os.makedirs(db_path)
-    Base.metadata.create_all(engine)
 
 
 class UploadRecord(Base):
@@ -49,5 +43,18 @@ def session_scope():
         session.close()
 
 
+
+def init_sqlite():
+    # 谨慎调用，会直接删除已有db文件
+    path = Config.SQLITE_URI.split('sqlite:///')[-1]
+    db_path = '/'.join(path.split('/')[:-1])
+    if os.path.exists(path):
+        os.remove(path)
+    else:
+        if not os.path.exists(db_path):
+            os.makedirs(db_path)
+    Base.metadata.create_all(engine)
+
 if __name__ == "__main__":
-    init_sqlite()
+    # init_sqlite()
+    pass

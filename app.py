@@ -6,12 +6,9 @@ from sanic.response import json as sanic_json
 
 from config import Config
 from core.model import SQLiteModel
-from core.schema import init_sqlite
 
 app = Sanic(__name__)
 SQLITE_MODEL = SQLiteModel()
-
-init_sqlite()  # 初始化
 
 
 async def send_requstes(method="GET", **kwargs):

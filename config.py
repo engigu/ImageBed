@@ -19,3 +19,6 @@ class Config:
 
     # 是否只能上传图片文件
     ONLY_UPLOAD_IMG_FILES = True
+
+    # API server worker数
+    API_SERVER_WORKERS = 4

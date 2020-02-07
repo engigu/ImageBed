@@ -1,4 +1,5 @@
 import hashlib
+import base64
 import aiohttp
 from sanic import Sanic
 from sanic.response import json as sanic_json
@@ -29,26 +30,31 @@ def msg(code=0, msg='ok!'):
     return sanic_json({'code':code, 'msg': msg})
 
 
+def generate_file_hash(file):
+    return hashlib.md5(file).hexdigest()
+
 
 @app.route("/api/upload", methods=['POST'])
 async def upload(request):
     # 文件上传
     # https://gitee.com/api/v5/swagger#/postV5ReposOwnerRepoContentsPath
     pic_file = request.files.get('file')  # type body name
-    print(pic_file.name, pic_file.type)
     # 文件类型校验
     if Config.ONLY_UPLOAD_IMG_FILES and 'image' not in pic_file.type:
-            return msg(code=-1, msg='请务必只上传图片文件！')   
-
-    file_name = '1.txt'
-    file_content = 'JXU4RkQ5JXU5MUNDJXU2NjJGJXU4OTgxJXU1MkEwJXU1QkM2JXU3Njg0JXU1MTg1JXU1QkI5JXVGRjAx'
+        return msg(code=-1, msg='请务必只上传图片文件！')  
+        
+    file_hash = generate_file_hash(pic_file.body)
+    file_name = '%s.jpg' % file_hash
+    # print(file_name)
+    file_content = base64.b64encode(pic_file.body).decode()
+    # print(file_content)
     kwargs = {
         'url': 'https://gitee.com/api/v5/repos/{owner}/{repo}/contents/{path}/{file_name}'.format(
             owner=Config.OWNER, repo=Config.REPO, path=Config.STROE_PATH, file_name=file_name
         ),
         'data': {
             "access_token": Config.ACCESS_TOKEN, "content": file_content,
-            "message": "upload %s by api" % file_content, "branch": Config.BRANCH
+            "message": "upload %s by api" % file_name, "branch": Config.BRANCH
         }
     }
     result = await send_requstes('POST', **kwargs)
@@ -56,7 +62,49 @@ async def upload(request):
     if '已存在' in str(result):
         return sanic_json({'code': 0, 'msg': '文件已经存在！'})
 
+#     {
+#     "hello":{
+#         "content":{
+#             "name":"dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#             "path":"store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#             "size":1150,
+#             "sha":"def96c4ab0971338aba7f8da8a5c8d0bfa25d3f3",
+#             "type":"file",
+#             "url":"https://gitee.com/api/v5/repos/EngiGu/imagestore/contents/store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#             "html_url":"https://gitee.com/EngiGu/imagestore/blob/back/store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#             "download_url":"https://gitee.com/EngiGu/imagestore/raw/back/store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#             "_links":{
+#                 "self":"https://gitee.com/api/v5/repos/EngiGu/imagestore/contents/store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg",
+#                 "html":"https://gitee.com/EngiGu/imagestore/blob/back/store/dc1a4b3c1d0da45574bb558bddc6c5eb.jpg"
+#             }
+#         },
+#         "commit":{
+#             "sha":"9c0bd21854302edca2dc924daa1bd6b3132e866b",
+#             "author":{
+#                 "name":"EngiGu",
+#                 "date":"2020-02-07T17:15:26+08:00",
+#                 "email":"451292130@qq.com"
+#             },
+#             "committer":{
+#                 "name":"Gitee",
+#                 "date":"2020-02-07T17:15:26+08:00",
+#                 "email":"noreply@gitee.com"
+#             },
+#             "message":"upload AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAABILAAASCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaAAAAHy8pACIcHAspUTs+Nm1QbTp0VXw0a01oKEo3NiISFgciICAAAAAAAAAAAAAAAAAAAAAAAEANGwBNAAQBMD85IyxEOmQ/fGGxZ6ai8XSjyP90ndH/c6TE/mKjme07d1yUKC4qFStAOAAAAAAAAAAAADMyNAA4ICsKKV9JbyB+WNs3hGP9d6bK/2Jp8f9NT/j/SUvz/05Q9f9ocvT/cqq9/jt4XJIfAAAFMy0vADUqLgBGACYDKVQ7fh2HUvgfiVb/aqmq/19l/f9DRu//Rknz/0VJ7v9FSe//Q0b1/2hy+f9jpJvtKU06OzBVRQAsT0EALkg+OR6LXOoYk1P/NIVa/3mY4P9HRur/R0n3/0VH6P9HSfn/RUfo/0ZI8/9KSun/dqDO/zp1WIJB86oAFbRzACdkS30Zpm3/F6tu/zCLZf9KeZv/NFyg/zVbnv81XZ//NV6h/zVcnv81XqD/Nlee/lhtmNdAaVZv////AAD/oQAmXz+WGZVX/xmTU/8aiEn/GZFT/xmRUf8ahkX/GpBQ/xmXV/8aiEj/GZJR/x2CS/wtPDCKMyovIjIrLgAZllkAKFtCehuOU/8Ym1v/F6dp/xiWV/8Yl1j/F6do/xiYWP8Zk1P/GKJj/xiWVf8efErwL0A3RzQtMQszMzMALUxAAC9FPDMfjF/lF6xt/xieX/8Xp2j/F6hp/xifYP8XrG3/GKVm/xenaP8Ypmr/JHRStjgdKg0yNTUAAAAAADUnLQBVAAACKVdBcR96R/UZkVH/GY5N/xmNTP8ZkFD/GY1M/xmPTv8aiUv/Im1C3C5ANDspVToAOBonAAAAAAAAAAAANSYqADsOHQYrTTtgIX9Y0ByUYPkZn2X/Gads/xqZYf8dj17yJWxLtC86LzgA/00APBkuAAAAAAAAAAAAAAAAAAAAAABHBBEAcgAAADQxMRosU0NTKGRMfSdoTYkpYEpzLko/QTgiKwwoQjoAZAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAD8BwAA4AMAAMABAACAAQAAgAEAAIABAACAAQAAgAEAAIADAACABwAAwA8AAOAfAAD//wAA//8AAA== by api",
+#             "tree":{
+#                 "sha":"a80cbd9068cc93db10325cc2ba1abd0ddda637ca",
+#                 "url":"https://gitee.com/api/v5/repos/EngiGu/imagestore/git/trees/a80cbd9068cc93db10325cc2ba1abd0ddda637ca"
+#             },
+#             "parents":[
+#                 {
+#                     "sha":"6bf173e9edde1f32176f99a0065740b55f63a0da",
+#                     "url":"https://gitee.com/api/v5/repos/EngiGu/imagestore/commits/6bf173e9edde1f32176f99a0065740b55f63a0da"
+#                 }
+#             ]
+#         }
+#     }
+# }
     return sanic_json({"hello": result})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, workers=4)
+    app.run(host="0.0.0.0", port=8000, workers=Config.API_SERVER_WORKERS)

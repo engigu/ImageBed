@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  imagebed-server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: "imagebed-server"
+    volumes:
+      - .:/app
+  
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "9900:80"
+    depends_on:
+      - imagebed-server
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./web/:/usr/share/nginx/html/

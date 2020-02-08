@@ -48,7 +48,7 @@ async def upload(request):
     record = SQLITE_MODEL.get_one_record(name=file_name)
     if record:
         # 之前有记录
-        return msg(msg='上传记录存在！', url=format_pic_url(file_name))
+        return msg(msg='之前上传过哟～', url=format_pic_url(file_name))
 
     kwargs = {
         'url': 'https://gitee.com/api/v5/repos/{owner}/{repo}/contents/{path}/{file_name}'.format(

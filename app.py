@@ -42,9 +42,9 @@ async def upload(request):
         return msg(code=-1, msg='请务必只上传图片文件！')
 
     file_hash = generate_file_hash(pic_file.body)
-
     file_name = '%s.%s' % (file_hash, pic_file.name.split('.')[-1])
     file_content = base64.b64encode(pic_file.body).decode()
+
     record = SQLITE_MODEL.get_one_record(name=file_name)
     if record:
         # 之前有记录

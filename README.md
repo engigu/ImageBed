@@ -8,6 +8,8 @@
 
 图片文件名的生成使用文件的`md5值`，使用`sqlite.db`对上传记录进行持久化，并进行上传去重复判断。
 
+欢迎大家提`issue`
+
 ## 环境
   - python3.7.2
   - sanic
@@ -71,4 +73,5 @@ git clone https://github.com/EngiGu/imagebed.git
 ## TODO
   - 页面优化
   - 支持剪贴板上传
+  - 防滥用
   

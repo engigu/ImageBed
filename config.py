@@ -1,27 +1,28 @@
 class Config:
-    # GITEE 配置
+
+    ############## GITEE配置 ##############
+    # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
     ACCESS_TOKEN = 'e883a9b5f519d7f7729fb7ccb06c445b'
-
-    # OWNER
+    # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
     OWNER = 'EngiGu'
-
-    # repo
+    # repo 仓库名字
     REPO = 'imagestore'
-
-    # BRANCH
+    # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     BRANCH = 'back'
-
-    # PATH
+    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好)
     STROE_PATH = 'store'
+    ############## GITEE配置 ##############
 
-    # recursive 项目目录的递归深度(查询项目bole目录)
-    RECURSIVE = 2
-
-    # 是否只能上传图片文件
+    ############## API_SERVER配置 ##############
+    # 是否只能上传图片文件(启用后端api的格式校验)
     ONLY_UPLOAD_IMG_FILES = True
-
     # API server worker数
     API_SERVER_WORKERS = 4
-
+    # API server port （
+    # 项目里有两个端口，如果你想整个web+api一起跑， 不要改这个端口（改动需要改动对应的nginx配置、dockerfile);
+    # 如果只跑后端api，根据需要改端口
+    # ）
+    API_SERVER_PORT = 8000
     # sqlite 数据库路径
     SQLITE_URI = 'sqlite:///sqlite_db/sqlite.db'
+    ############## API_SERVER配置 ##############

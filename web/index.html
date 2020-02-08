@@ -53,15 +53,15 @@
 						'<span class="desc1" id="info"><h4>以下是分别是 原始、UBB 和 MD 链接：</h4></span>' +
 						'<div class="input_box">' +
 						'<input type="text" class="in" id="url_1" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + url + ' />' +
-						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_1">复制</button>' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_1">复制raw</button>' +
 						'</div>' +
 						'<div class="input_box">' +
 						'<input type="text" class="in" id="url_2" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + '[img]' + url + '[/img] />' +
-						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_2">复制</button>' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_2">复制UBB</button>' +
 						'</div>' +
 						'<div class="input_box">' +
 						'<input type="text" class="in" id="url_3" readonly="true" data-clipboard-target="p" onfocus="this.select()" value=' + '![image](' + url + ') />' +
-						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_3">复制</button>' +
+						'<button class="btn" data-clipboard-action="copy" data-clipboard-target="#url_3">复制MD</button>' +
 						'</div>';
 					$('.inner_html').html(inner_content);
 				}, function () {
@@ -103,7 +103,7 @@
 				<h2>Photos, illustrations by<br> Creatives all over the world.</h2>
 				<div class="search">
 					<div class="upload_area" id="upload_area">
-						Click Me and Start
+						Click Me and Upload
 					</div>
 				</div>
 			</div>

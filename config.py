@@ -9,7 +9,7 @@ class Config:
     REPO = 'imagestore'
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     BRANCH = 'back'
-    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好)
+    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     STROE_PATH = 'store'
     ############## GITEE配置 ##############
 

@@ -13,7 +13,7 @@
 
 
 # 说明
-1. 整个项目一起运行
+1. 整个项目一起运行(**推荐**)
 
     a. 启动命令
     ```shell
@@ -30,11 +30,15 @@
     a. 打包运行
      ```shell
     docker build -t imagebed-server .
-    docker run -d -p 8000:8000 --name imagebed imagebed-server
+    docker run -d -p 8000:8000 --name imagebed-server imagebed-server
     ```
     如果要把`sqlite`保存在外部，需要挂载`-v {yourpath}:/app/sqlite_db`
-
-    b. 请求参数
+    
+    b. 如果是第一次运行，需要执行初始化(以后不用执行)
+    ```shell
+    docker-compose exec imagebed-server sh -c 'python init_server.py'
+    ```
+    c. 请求参数
     ```curl
     curl -X POST 'http:/ip:8000/api/upload' -d '{file: (binary)}'
     ```

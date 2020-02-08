@@ -8,13 +8,13 @@
 
 图片文件名的生成使用文件的`md5值`，使用`sqlite.db`对上传记录进行持久化，并进行上传去重复判断。
 
-# 环境
+## 环境
   - python3.7.2
   - sanic
   - 更多详见`requirements.txt`
 
 
-# 说明
+## 说明
 1. 整个项目一起运行(**推荐**)
 
     a. 启动命令
@@ -45,7 +45,7 @@
     curl -X POST 'http:/ip:8000/api/upload' -d '{file: (binary)}'
     ```
 
-# 配置参数说明
+## 配置参数说明
     ```python
     # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
     ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -59,7 +59,7 @@
     STROE_PATH = 'your/images/path'
     ```
 
-# TODO
+## TODO
   - 页面优化
   - 支持剪贴板上传
   

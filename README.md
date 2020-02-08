@@ -70,6 +70,10 @@ git clone https://github.com/EngiGu/imagebed.git
     STROE_PATH = 'your/images/path'
 ```
 
+##  Release
+
+ - 2020.02.08 支持上传进度显示
+
 ## TODO
   - 页面优化
   - 支持剪贴板上传

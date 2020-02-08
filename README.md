@@ -46,7 +46,8 @@
     ```
 
 ## 配置参数说明
-    ```python
+
+```python
     # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
     ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
 
@@ -58,10 +59,10 @@
 
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     BRANCH = 'banch_name'
-    
+
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     STROE_PATH = 'your/images/path'
-    ```
+```
 
 ## TODO
   - 页面优化

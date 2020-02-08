@@ -33,7 +33,7 @@
 	</script>
 	<script>
 		$(function () {
-			$.ajaxSettings.async = false; // 取消异步
+			// $.ajaxSettings.async = false; // 取消异步
 
 			$('.upload_area').click(function () {
 				$('.file_upload').click();
@@ -45,8 +45,9 @@
 				var this_image_file = this.files[0]
 				if (this_image_file.type.indexOf('image') != 0)
 					return alert('这不是一个图像或音频！')
-				UP(this_image_file, function (url) {
-					console.log(url);
+				UP(this_image_file, function (response) {
+					Toast(response.msg)
+					var url = response.url
 					show_image.src = url;
 					link.href = url;
 					inner_content = '<div class="desc">' +

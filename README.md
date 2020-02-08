@@ -10,6 +10,10 @@
 
 欢迎大家提`issue`
 
+##  Release
+
+ - 2020.02.08 支持上传进度显示
+
 ## 环境
   - python3.7.2
   - sanic
@@ -69,6 +73,8 @@ git clone https://github.com/EngiGu/imagebed.git
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     STROE_PATH = 'your/images/path'
 ```
+
+
 
 ## TODO
   - 页面优化

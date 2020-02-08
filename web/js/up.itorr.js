@@ -10,29 +10,18 @@ UP = function (o, success, error, upload_func) {
 	}
 
 	x = new XMLHttpRequest();
-	x.open('POST', '/api/upload', false);
-	x.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-	// if (upload) {
-	// 	console.log('progress!!!');
-	// 	x.upload.onprogress = function (e) {
-	// 		console.log(e);
-
-	// 		upload(e.loaded / e.total)
-	// 	}
-	// }
-	console.log(upload_func);
-	x.upload.addEventListener("progress", upload_func, false);
-	// x.upload.onprogress = function (e) {
-		// console.log(e);
-		// upload_func(e.loaded / e.total)
-	// }
 
 	x.onload = function (r) {
 		r = JSON.parse(x.responseText);
 		return success(r)
 	}
+
+	x.upload.onprogress = function (e) {
+		upload_func(e.loaded / e.total)
+	} // 注册位置需要在 open send 之前， 同时需要异步
+
+	x.open('POST', '/api/upload', true);
+	x.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	x.send(file);
-	// $.ajaxSettings.async = true; 
 
 }

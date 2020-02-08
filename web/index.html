@@ -33,7 +33,7 @@
 	</script>
 	<script>
 		$(function () {
-			$.ajaxSettings.async = false; // 取消异步
+			// $.ajaxSettings.async = false; // 取消异步
 
 			$('.upload_area').click(function () {
 				$('.file_upload').click();
@@ -68,7 +68,6 @@
 				}, function () {
 					alert('上传文件出错了！')
 				}, function (process) {
-					console.log('upload processs!!!');
 					$('.inner_html').html('<div class="desc1">上传进度为：' + (process * 99).toFixed(2) + ' %');
 
 					$('#show_image').load(function () {

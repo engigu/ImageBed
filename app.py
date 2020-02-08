@@ -125,4 +125,4 @@ async def upload(request):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, workers=Config.API_SERVER_WORKERS)
+    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT, workers=Config.API_SERVER_WORKERS)

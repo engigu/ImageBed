@@ -10,6 +10,10 @@
 
 欢迎大家提`issue`
 
+##  Release
+
+ - 2020.02.08 支持上传进度显示
+
 ## 环境
   - python3.7.2
   - sanic
@@ -70,9 +74,7 @@ git clone https://github.com/EngiGu/imagebed.git
     STROE_PATH = 'your/images/path'
 ```
 
-##  Release
 
- - 2020.02.08 支持上传进度显示
 
 ## TODO
   - 页面优化

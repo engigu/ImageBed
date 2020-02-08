@@ -43,7 +43,7 @@ UP = function (o, success, error, upload, x, file, A) {
 	}
 	x.onload = function (r) {
 		r = JSON.parse(x.responseText);
-		return success(r.url)
+		return success(r)
 	}
 	x.send(file);
 	// $.ajaxSettings.async = true; 

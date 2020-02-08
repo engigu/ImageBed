@@ -8,6 +8,7 @@ __pycache__/
 .vscode/
 sqlite_db
 sqlite.db
+config.py
 
 # Distribution / packaging
 .Python

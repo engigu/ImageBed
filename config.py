@@ -4,13 +4,13 @@ class Config:
     # GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
     ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
-    OWNER = 'EngiGu'
+    OWNER = 'onwer'
     # repo 仓库名字
-    REPO = 'imagestore'
+    REPO = 'repo_name'
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
-    BRANCH = 'back'
+    BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    STROE_PATH = 'store'
+    STROE_PATH = 'your/images/path'
     ############## GITEE配置 ##############
 
     ############## API_SERVER配置 ##############

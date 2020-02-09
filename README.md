@@ -13,6 +13,7 @@
 ##  Release
 
  - 2020.02.08 支持上传进度显示
+ - 2020.02.09 支持剪贴板上传
 
 ## 环境
   - python3.7.2
@@ -82,7 +83,7 @@ git clone https://github.com/EngiGu/imagebed.git
 
 
 ## TODO
-  - 页面优化
-  - 支持剪贴板上传
+  - ~~页面优化~~
+  - ~~支持剪贴板上传~~
   - 防滥用
   

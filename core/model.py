@@ -16,6 +16,6 @@ class SQLiteModel:
         with session_scope() as s:
             s.add(UploadRecord(
                 name=name,
-                created_at=Utils.now(return_datetime=False)
+                created_at=Utils.now(return_datetime=True)
             ))
           

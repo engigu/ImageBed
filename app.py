@@ -6,6 +6,7 @@ from sanic.response import json as sanic_json
 
 from config import Config
 from core.model import SQLiteModel
+from core.utils import Utils
 
 app = Sanic(__name__)
 SQLITE_MODEL = SQLiteModel()
@@ -55,8 +56,10 @@ async def upload(request):
             owner=Config.OWNER, repo=Config.REPO, path=Config.STROE_PATH, file_name=file_name
         ),
         'data': {
-            "access_token": Config.ACCESS_TOKEN, "content": file_content,
-            "message": "upload %s by api" % pic_file.name, "branch": Config.BRANCH
+            "access_token": Config.ACCESS_TOKEN, 
+            "content": file_content,
+            "message": "upload %s by api at %s" % (pic_file.name, Utils.now(return_datetime=False)), 
+            "branch": Config.BRANCH
         }
     }
     result = await send_requstes('POST', **kwargs)

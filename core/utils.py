@@ -1,4 +1,3 @@
-import time
 import datetime
 import os
 
@@ -9,8 +8,8 @@ class Utils:
 
     @staticmethod
     def now(return_datetime=False):
-        if not datetime:
-            return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        if not return_datetime:
+            return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return datetime.datetime.now()
 
     @staticmethod
@@ -36,4 +35,5 @@ class Utils:
 
 
 if __name__ == '__main__':
+    print(Utils.now())
     pass

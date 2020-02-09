@@ -75,6 +75,11 @@ git clone https://github.com/EngiGu/imagebed.git
 ```
 
 
+##  大小说明
+[官方说明](https://gitee.com/help/articles/4125#article-header0)
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0209/160615_555f2669_1346635.png "屏幕截图.png")
+
 
 ## TODO
   - 页面优化

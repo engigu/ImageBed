@@ -1,16 +1,16 @@
 class Config:
 
     ############## GITEE配置 ##############
-    # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
-    ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
+    # GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
+    ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
-    OWNER = 'jake'
+    OWNER = 'EngiGu'
     # repo 仓库名字
-    REPO = 'repo_name'
+    REPO = 'imagestore'
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
-    BRANCH = 'banch_name'
+    BRANCH = 'back'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    STROE_PATH = 'your/images/path'
+    STROE_PATH = 'store'
     ############## GITEE配置 ##############
 
     ############## API_SERVER配置 ##############

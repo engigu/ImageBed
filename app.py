@@ -61,14 +61,19 @@ async def upload(request):
     }
     result = await send_requstes('POST', **kwargs)
 
-    # 添加记录
-    SQLITE_MODEL.add_one_record(name=file_name)
-
     if '已存在' in str(result):
+        # 添加记录
+        SQLITE_MODEL.add_one_record(name=file_name)
         return msg(msg='文件已经存在！', url=format_pic_url(file_name))
+    elif 'html_url' not in str(result):
+        # 出现异常了
+        return msg(code=-1, msg=str(result), url=str(result))
     else:
+        # 添加记录
+        SQLITE_MODEL.add_one_record(name=file_name)
         return msg(msg='上传成功！', url=format_pic_url(file_name))
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT, workers=Config.API_SERVER_WORKERS)
+    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT,
+            workers=Config.API_SERVER_WORKERS)

@@ -31,7 +31,7 @@ class BaseUploder:
 class GiteeUploader(BaseUploder):
     def __init__(self, access_token, owner, repo, branch, store_path):
         self.access_token = access_token
-        self.owner = owner
+        self.owner = owner.lower()
         self.repo = repo
         self.branch = branch
         self.store_path = store_path
@@ -39,7 +39,7 @@ class GiteeUploader(BaseUploder):
 
     async def format_pic_url(self, filename):
         return 'https://gitee.com/{owner}/{repo}/raw/{branch}/{path}/{filename}'.format(
-            owner=self.owner.lower(),
+            owner=self.owner,
             repo=self.repo,
             path=self.store_path,
             filename=filename,
@@ -77,6 +77,26 @@ class GiteeUploader(BaseUploder):
             # 结果正常
             need_add_record = True
             return 0, '上传成功！', url, need_add_record
+
+    async def get_gitee_all_blob_tree(self):
+        # 主要是获取所有的blob目录
+        kwargs = {
+            'url': 'https://gitee.com/api/v5/repos/{owner}/{repo}/contents/{path}?access_token={access_token}&ref={branch}'.format(
+                owner=self.owner, repo=self.repo, branch=self.branch, access_token=self.access_token, path=self.store_path
+            ),
+        }
+        return await self.send_requstes('GET', **kwargs)
+
+    async def init_server(self, sqlite_model):
+        # 初始化
+        print('2. starting pull blob images...')
+        result = await self.get_gitee_all_blob_tree()
+        i = 0
+        for r in result:
+            sqlite_model.add_one_record(name=r['name'])
+            i += 1
+            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+        print('\nall done.',)
 
 
 class CodingUploader(BaseUploder):
@@ -117,7 +137,8 @@ class CodingUploader(BaseUploder):
         lastCommitSha = await self.get_last_commit_sha()
         data = FormData()
         data.add_field('file', file, filename=filename)
-        data.add_field('message', "upload %s at %s" % (raw_filename, Utils.now(return_datetime=False)))
+        data.add_field('message', "upload %s at %s" %
+                       (raw_filename, Utils.now(return_datetime=False)))
         data.add_field('lastCommitSha', lastCommitSha)
         data.add_field('newRef', '')
         kwargs = {
@@ -133,6 +154,7 @@ class CodingUploader(BaseUploder):
         # 处理上传结果
         url = await self.format_pic_url(filename)
         need_add_record = False
+        print(result)
         if result['code'] == 0:
             # 结果正常
             need_add_record = True
@@ -144,6 +166,28 @@ class CodingUploader(BaseUploder):
         else:
             # 异常
             return -1, str(result['msg']), str(result['msg']), need_add_record
+
+    async def get_coding_tree_blob_file(self):
+        # 初始化
+        kwargs = {
+            'url': 'https://{owner}.coding.net/api/user/{owner}/project/{repo}/depot/{repo}/git/tree/{branch}/{path}'.format(
+                owner=self.owner, repo=self.repo, path=self.store_path, branch=self.branch
+            ),
+            'headers': self.headers
+        }
+        result = await self.send_requstes('GET', **kwargs)
+        return result
+
+    async def init_server(self, sqlite_model):
+        # 初始化
+        print('2. starting pull blob images...')
+        result = await self.get_coding_tree_blob_file()
+        i = 0
+        for r in result['data']['files']:
+            sqlite_model.add_one_record(name=r['name'])
+            i += 1
+            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+        print('\nall done.',)
 
 
 __UPLODER_MAPS__ = {

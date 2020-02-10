@@ -23,7 +23,7 @@
 
 
 ## 说明
-先拉取项目，更改`config.py`里的配置，修改参见下面的说明
+先拉取项目, `cp config.py.sample config.py` ,更改`config.py`里的配置，修改参见下面的说明
 ```shell
 git clone https://github.com/EngiGu/imagebed.git
 ```

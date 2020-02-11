@@ -12,8 +12,9 @@
 
 ##  Release
 
- - 2020.02.08 支持上传进度显示
+ - 2020.02.10 项目重构，支持coding
  - 2020.02.09 支持剪贴板上传
+ - 2020.02.08 支持上传进度显示
 
 ## 环境
   - python3.7.2
@@ -22,7 +23,7 @@
 
 
 ## 说明
-先拉取项目，更改`config.py`里的配置，修改参见下面的说明
+先拉取项目, `cp config.py.sample config.py` ,更改`config.py`里的配置，修改参见下面的说明
 ```shell
 git clone https://github.com/EngiGu/imagebed.git
 ```
@@ -59,20 +60,33 @@ git clone https://github.com/EngiGu/imagebed.git
 ## 配置参数说明
 
 ```python
-    # GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
-    ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxxx'
-
+    ############## GITEE配置 ##############
+    # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
+    GITEE_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
-    OWNER = 'jake'
-
+    GITEE_OWNER = 'owner'
     # repo 仓库名字
-    REPO = 'repo_name'
-
+    GITEE_REPO = 'repo_name'
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
-    BRANCH = 'banch_name'
-
+    GITEE_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    STROE_PATH = 'your/images/path'
+    GITEE_STROE_PATH = 'your/images/path'
+    ############## GITEE配置 ##############
+
+    ############## Coding配置 ##############
+    # Coding 用户授权码
+    # CODING_ACCESS_TOKEN = 'xxxxx'
+    # 暂时只支持cookies，使用的是webapi， 因为coding官方openapi不完善
+    CODING_COOKIES = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
+    CODING_OWNER = 'owner'
+    # repo 仓库名字
+    CODING_REPO = 'repo_name'
+    # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
+    CODING_BRANCH = 'branch_name'
+    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
+    CODING_STROE_PATH = 'your/images/path'
+    ############## Coding配置 ##############
 ```
 
 

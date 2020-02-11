@@ -9,6 +9,7 @@ __pycache__/
 sqlite_db
 sqlite.db
 config.py
+test_uplaod.py
 
 # Distribution / packaging
 .Python

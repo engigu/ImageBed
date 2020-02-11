@@ -4,13 +4,15 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: "imagebed-server"
+    # image: "imagebed-server"
+    container_name: "imagebed-server"
     volumes:
       - ./:/app
       - ./sqlite_db:/app/sqlite_db
   
   nginx:
     image: nginx:stable-alpine
+    container_name: "nginx"
     ports:
       - "9900:80"
     depends_on:

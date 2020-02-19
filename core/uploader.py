@@ -95,7 +95,8 @@ class GiteeUploader(BaseUploder):
         for r in result:
             sqlite_model.add_one_record(name=r['name'])
             i += 1
-            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+            print(
+                '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
         print('\nall done.',)
 
 
@@ -130,7 +131,10 @@ class CodingUploader(BaseUploder):
             'headers': self.headers
         }
         result = await self.send_requstes('GET', **kwargs)
-        return result['data']['lastCommit']
+        try:
+            return result['data']['lastCommit']
+        except Exception as e:
+            print('get last commit error: %s, result: %s' % (str(e), str(result)))
 
     async def upload(self, file, filename, raw_filename):
         # file 二进制文件
@@ -186,7 +190,8 @@ class CodingUploader(BaseUploder):
         for r in result['data']['files']:
             sqlite_model.add_one_record(name=r['name'])
             i += 1
-            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+            print(
+                '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
         print('\nall done.',)
 
 

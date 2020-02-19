@@ -82,7 +82,7 @@
 						}
 					}
 				};
-				console.log(file);
+				// console.log(file);
 				if (file) {
 					render_paste_image(file);
 				} else {
@@ -107,7 +107,6 @@
 			// 使用下面的注册失败，要先绑定在body上
 			// $('#paste_upload_button').on('click', function () {
 			$('body').on('click', '#paste_upload_button', function () {
-				console.log('paste_upload_button click!!!');
 				if (paste_image) {
 					//  上传
 					UP(paste_image, upload_success, upload_error, uploading);

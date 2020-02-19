@@ -74,10 +74,8 @@ git clone https://github.com/EngiGu/imagebed.git
     ############## GITEE配置 ##############
 
     ############## Coding配置 ##############
-    # Coding 用户授权码
-    # CODING_ACCESS_TOKEN = 'xxxxx'
-    # 暂时只支持cookies，使用的是webapi， 因为coding官方openapi不完善
-    CODING_COOKIES = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    # Coding 用户授权码, token获取参见 https://help.coding.net/docs/member/tokens.html
+    CODING_ACCESS_TOKEN = 'xxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
     CODING_OWNER = 'owner'
     # repo 仓库名字
@@ -86,7 +84,7 @@ git clone https://github.com/EngiGu/imagebed.git
     CODING_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     CODING_STROE_PATH = 'your/images/path'
-    ############## Coding配置 ##############
+    ############## Coding配置 #############
 ```
 
 

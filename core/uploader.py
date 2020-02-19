@@ -101,16 +101,14 @@ class GiteeUploader(BaseUploder):
 
 
 class CodingUploader(BaseUploder):
-    def __init__(self, cookies, owner, repo, branch, store_path):
-        self.cookies = cookies
+    def __init__(self, token, owner, repo, branch, store_path):
+        self.token = token
         self.owner = owner.lower()
         self.repo = repo
         self.branch = branch
         self.store_path = store_path
         self.headers = {
-            "Cookie": cookies,
-            # "Host": "%s.coding.net" % self.owner,
-            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
+            "Authorization": "token %s" % token
         }
         super().__init__()
 
@@ -204,7 +202,7 @@ __UPLODER_MAPS__ = {
         store_path=Config.GITEE_STROE_PATH
     ),
     'coding': CodingUploader(
-        cookies=Config.CODING_COOKIES,
+        token=Config.CODING_ACCESS_TOKEN,
         owner=Config.CODING_OWNER,
         repo=Config.CODING_REPO,
         branch=Config.CODING_BRANCH,

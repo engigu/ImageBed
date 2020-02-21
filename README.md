@@ -8,6 +8,8 @@
 
 图片文件名的生成使用文件的`md5值`，使用`sqlite.db`对上传记录进行持久化，并进行上传去重复判断。
 
+现在已经支持国内的`gitee`和`coding`
+
 欢迎大家提`issue`
 
 ##  Release
@@ -31,6 +33,7 @@ git clone https://github.com/EngiGu/imagebed.git
 
     a. 启动命令
     ```shell
+    docker-compose build
     docker-compose up -d
     ```
     b. 如果是第一次运行，需要执行初始化(以后不用执行)
@@ -58,6 +61,8 @@ git clone https://github.com/EngiGu/imagebed.git
     ```
 
 ## 配置参数说明
+
+`gitee`和`coding`选择一个配置填写完整
 
 ```python
     ############## GITEE配置 ##############

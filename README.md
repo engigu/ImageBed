@@ -8,6 +8,8 @@
 
 图片文件名的生成使用文件的`md5值`，使用`sqlite.db`对上传记录进行持久化，并进行上传去重复判断。
 
+现在已经支持国内的`gitee`和`coding`
+
 欢迎大家提`issue`
 
 ##  Release
@@ -31,6 +33,7 @@ git clone https://github.com/EngiGu/imagebed.git
 
     a. 启动命令
     ```shell
+    docker-compose build
     docker-compose up -d
     ```
     b. 如果是第一次运行，需要执行初始化(以后不用执行)
@@ -59,9 +62,11 @@ git clone https://github.com/EngiGu/imagebed.git
 
 ## 配置参数说明
 
+`gitee`和`coding`选择一个配置填写完整
+
 ```python
     ############## GITEE配置 ##############
-    # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
+    #  GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
     GITEE_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
     GITEE_OWNER = 'owner'
@@ -74,10 +79,8 @@ git clone https://github.com/EngiGu/imagebed.git
     ############## GITEE配置 ##############
 
     ############## Coding配置 ##############
-    # Coding 用户授权码
-    # CODING_ACCESS_TOKEN = 'xxxxx'
-    # 暂时只支持cookies，使用的是webapi， 因为coding官方openapi不完善
-    CODING_COOKIES = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    # Coding 用户授权码, token获取参见 https://help.coding.net/docs/member/tokens.html
+    CODING_ACCESS_TOKEN = 'xxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
     CODING_OWNER = 'owner'
     # repo 仓库名字
@@ -86,7 +89,7 @@ git clone https://github.com/EngiGu/imagebed.git
     CODING_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     CODING_STROE_PATH = 'your/images/path'
-    ############## Coding配置 ##############
+    ############## Coding配置 #############
 ```
 
 

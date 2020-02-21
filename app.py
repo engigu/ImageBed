@@ -43,7 +43,8 @@ async def upload(request):
 
         return msg(code=code, msg=show_msg, url=url)
     except Exception as e:
-        return msg(code=-1, msg='内部错误！error：%s' % str(e), url='')
+        show_msg = '内部错误！error：%s' % str(e)
+        return msg(code=-1, msg=show_msg, url=show_msg)
         
 
 if __name__ == "__main__":

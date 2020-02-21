@@ -66,7 +66,7 @@ git clone https://github.com/EngiGu/imagebed.git
 
 ```python
     ############## GITEE配置 ##############
-    # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
+    #  GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
     GITEE_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxx'
     # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
     GITEE_OWNER = 'owner'

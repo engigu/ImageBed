@@ -109,7 +109,8 @@
 			$('body').on('click', '#paste_upload_button', function () {
 				if (paste_image) {
 					//  上传
-					UP(paste_image, upload_success, upload_error, uploading);
+					uploadWay = $("#upLoadway option:selected").text().trim();
+					UP(paste_image, upload_success, upload_error, uploading, uploadWay);
 				}
 			});
 
@@ -124,7 +125,8 @@
 				if (this_image_file.type.indexOf('image') != 0)
 					return alert('这不是一个图像或音频！')
 				//  上传
-				UP(this_image_file, upload_success, upload_error, uploading);
+				uploadWay = $("#upLoadway option:selected").text().trim();
+				UP(this_image_file, upload_success, upload_error, uploading, uploadWay);
 			});
 
 			var clipboard = new ClipboardJS('.btn');
@@ -143,10 +145,18 @@
 	<div class="header">
 		<div class="container">
 			<div class="logo">
-				<h1><a href="#">Image Bed</a></h1>
+				<h1 style="display: inline;"><a href="#">Image Bed</a></h1>
+
 			</div>
 
+			<select id="upLoadway">
+				<option >Gitee</option>
+				<option >Coding</option>
+				<option >360</option>
+			</select>
+
 			<div class="clearfix"></div>
+
 		</div>
 	</div>
 	<div class="banner">

@@ -1,8 +1,9 @@
 
-UP = function (o, success, error, upload_func) {
+UP = function (o, success, error, upload_func, uploadWay) {
 	if (typeof success == 'function') {
 		var file = new FormData();
 		file.append("file", o);
+		file.append("uploadWay", uploadWay);
 		// file=o;
 	}
 	else {

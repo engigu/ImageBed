@@ -1953,3 +1953,30 @@ fieldset#body {
   padding: 2px 5px;
   
 }
+
+#upLoadway {
+  float: right;
+  
+  display: inline;
+  border: #e6e6e6;
+  /* {#size: 50%;#} */
+  height: 40px;
+  font-size: 1.0em;
+  /* left: calc(100% - 40px); */
+  margin: 10px auto;
+
+  /* display: inline-block; */
+  position: relative;
+  vertical-align: middle;
+  padding: 0;
+  overflow: hidden;
+  background-color: #fff;
+  color: #555;
+  border: 2px solid #aaa;
+  text-shadow: none;
+  border-radius: 4px;
+  transition: box-shadow 0.25s ease;
+  z-index: 2;
+
+  outline:none; /* 取消点击蓝框 */
+}

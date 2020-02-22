@@ -12,7 +12,7 @@ async def main_steps():
 
     # 2. 拉取出仓库目录下已经存在的文件, 将记录插入sqlite
     SQL_MODEL = SQLiteModel()
-    async for uploader in __UPLODER_MAPS__.values():
+    for uploader in __UPLODER_MAPS__.values():
         await uploader.init_server(sqlite_model=SQL_MODEL)
 
 

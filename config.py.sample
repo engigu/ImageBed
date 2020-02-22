@@ -27,8 +27,6 @@ class Config:
     ############## Coding配置 ##############
 
     ############## API_SERVER配置 ##############
-    # 存储后端的仓库使用 gitee/coding
-    REPO_BACKEND_USING = 'coding'
     # 是否只能上传图片文件(启用后端api的格式校验)
     ONLY_UPLOAD_IMG_FILES = True
     # API server worker数
@@ -41,11 +39,3 @@ class Config:
     # sqlite 数据库路径
     SQLITE_URI = 'sqlite:///sqlite_db/sqlite.db'
     ############## API_SERVER配置 ##############
-
-
-def config_check():
-    if Config.REPO_BACKEND_USING.lower() not in ['gitee', 'coding']:
-        raise NameError('repo: %s is invaild!' % Config.REPO_BACKEND_USING)
-
-
-config_check()

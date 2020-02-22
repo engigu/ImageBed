@@ -44,8 +44,10 @@ $(function () {
 	var paste_image = null;
 
 	// 刷新设置上次的选中作为默认选中
-	uploadWay_last_check = getCookie('uploadWay')
-	$('#upLoadway').val(uploadWay_last_check);
+	uploadWay_last_check = getCookie('uploadWay');
+	if (uploadWay_last_check) {
+		$('#upLoadway').val(uploadWay_last_check);
+	};
 
 	// 更新本地的way状态
 	$("#upLoadway").change(function () {

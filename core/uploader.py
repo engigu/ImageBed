@@ -1,34 +1,14 @@
-import hashlib
 import base64
-import aiohttp
 from aiohttp import FormData
 
+from core.uploader_base import BaseUploder
 from core.utils import Utils
 from config import Config
 
 
-class BaseUploder:
-    async def send_requstes(self, method="GET", **kwargs):
-        async with aiohttp.request(method, **kwargs) as response:
-            # content_type=None 是因为aiohttp默认会校验 response headers 里的content-type: text会直接报错，
-            # 直接关闭校验
-            return await response.json(content_type=None)
-
-    async def generate_file_hash(self, file):
-        return hashlib.md5(file).hexdigest()
-
-    async def format_pic_url(self, filename):
-        pass
-
-    async def upload(self, file, filename):
-        pass
-
-    async def deal_upload_result(self, result):
-        # 处理上传结果
-        pass
-
-
 class GiteeUploader(BaseUploder):
+    name = 'gitee'
+
     def __init__(self, access_token, owner, repo, branch, store_path):
         self.access_token = access_token
         self.owner = owner.lower()
@@ -93,7 +73,7 @@ class GiteeUploader(BaseUploder):
         result = await self.get_gitee_all_blob_tree()
         i = 0
         for r in result:
-            sqlite_model.add_one_record(name=r['name'])
+            sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
             i += 1
             print(
                 '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
@@ -101,6 +81,8 @@ class GiteeUploader(BaseUploder):
 
 
 class CodingUploader(BaseUploder):
+    name = 'coding'
+
     def __init__(self, token, owner, repo, branch, store_path):
         self.token = token
         self.owner = owner.lower()
@@ -186,30 +168,34 @@ class CodingUploader(BaseUploder):
         result = await self.get_coding_tree_blob_file()
         i = 0
         for r in result['data']['files']:
-            sqlite_model.add_one_record(name=r['name'])
+            sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
             i += 1
             print(
                 '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
         print('\nall done.',)
 
 
+
+# 其他接口 
+from core.uploader_other import G360Uploader
+
+
 __UPLODER_MAPS__ = {
-    'gitee': GiteeUploader(
+    GiteeUploader.name: GiteeUploader(
         access_token=Config.GITEE_ACCESS_TOKEN,
         owner=Config.GITEE_OWNER,
         repo=Config.GITEE_REPO,
         branch=Config.GITEE_BRANCH,
         store_path=Config.GITEE_STROE_PATH
     ),
-    'coding': CodingUploader(
+    CodingUploader.name: CodingUploader(
         token=Config.CODING_ACCESS_TOKEN,
         owner=Config.CODING_OWNER,
         repo=Config.CODING_REPO,
         branch=Config.CODING_BRANCH,
         store_path=Config.CODING_STROE_PATH
-    )
-
-
+    ),
+    G360Uploader.name: G360Uploader()
 }
 
-UPLODER = __UPLODER_MAPS__[Config.REPO_BACKEND_USING]
+SUPPORT_UPLOAD_WAYS = [name.lower() for name in __UPLODER_MAPS__.keys()]

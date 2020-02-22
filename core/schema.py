@@ -17,6 +17,7 @@ Base = declarative_base()
 class UploadRecord(Base):
     __tablename__ = "upload_record"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    upload_way = Column(String(64), server_default=text("''"))
     name = Column(String(64), server_default=text("''"))
     created_at = Column(TIMESTAMP,  server_default=text("CURRENT_TIMESTAMP"))
 

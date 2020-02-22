@@ -114,7 +114,8 @@ class CodingUploader(BaseUploder):
         try:
             return result['data']['lastCommit']
         except Exception as e:
-            print('get last commit error: %s, result: %s' % (str(e), str(result)))
+            print('get last commit error: %s, result: %s' %
+                  (str(e), str(result)))
 
     async def upload(self, file, filename, raw_filename):
         # file 二进制文件
@@ -170,13 +171,11 @@ class CodingUploader(BaseUploder):
         for r in result['data']['files']:
             sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
             i += 1
-            print(
-                '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
         print('\nall done.',)
 
 
-
-# 其他接口 
+# 其他接口
 from core.uploader_other import G360Uploader
 
 

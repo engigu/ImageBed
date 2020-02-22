@@ -1,19 +1,20 @@
 # ImageBed
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0208/092300_da8cfc9a_1346635.png "屏幕截图.png")
-![输入图片说明](https://images.gitee.com/uploads/images/2020/0208/094443_a0d34bdb_1346635.png "屏幕截图.png")
+![image](https://ps.ssl.qhmsg.com/t028f522be60483b180.jpg)
+![image](https://ps.ssl.qhmsg.com/t0254198e701f13493f.jpg)
 写`Markdown`的时候总是要做图片的引用，使用`github`速度又不是很友好，看到国内代码托管平台`gitee`， 有`openapi`([`gitee`.`swagger`](https://gitee.com/api/v5/swagger))可以调用，于是写了这个基于`仓库`的图床，主要放一些自己文字里的图片。
 
 页面很low，可以只跑api, 后端框架使用`sanic`，自己也是第一次使用这个异步框架。
 
 图片文件名的生成使用文件的`md5值`，使用`sqlite.db`对上传记录进行持久化，并进行上传去重复判断。
 
-现在已经支持国内的`gitee`和`coding`
+现在已经支持国内的`gitee`和`coding`, 并且加入一些不用在意质量的免费接口。
 
 欢迎大家提`issue`
 
 ##  Release
 
+ - 2020.02.22 加入多个图源切换，加入其他免费接口
  - 2020.02.10 项目重构，支持coding
  - 2020.02.09 支持剪贴板上传
  - 2020.02.08 支持上传进度显示

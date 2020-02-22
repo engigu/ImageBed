@@ -39,7 +39,8 @@ async def upload(request):
             return msg(code=-1, msg='找不到对用的uploder！', url='找不到对用的uploder！')
 
         file_hash = await uploader.generate_file_hash(pic_file.body)
-        file_name = '%s.%s' % (file_hash, pic_file.name.split('.')[-1])
+        raw_suffix = pic_file.name.split('.')[-1]
+        file_name = '%s.%s' % (file_hash, raw_suffix)
 
         record = SQLITE_MODEL.get_one_record(name=file_name, upload_way=upload_way)
         if record:

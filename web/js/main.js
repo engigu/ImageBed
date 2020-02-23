@@ -20,7 +20,37 @@ function getCookie(cname) {
 		}
 	}
 	return "";
+};
+
+
+function uploadFile(f, success, error, upload_func, uploadWay) {
+	if (typeof success == 'function') {
+		var file = new FormData();
+		file.append("file", f);
+		file.append("uploadWay", uploadWay);
+		// file=o;
+	}
+	else {
+		console.log('js错误')
+	}
+
+	x = new XMLHttpRequest();
+
+	x.onload = function (r) {
+		r = JSON.parse(x.responseText);
+		return success(r)
+	}
+
+	x.upload.onprogress = function (e) {
+		upload_func(e.loaded / e.total)
+	} // 注册位置需要在 open send 之前， 同时需要异步
+
+	x.open('POST', '/api/upload', true);
+	x.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	x.send(file);
+
 }
+
 
 //自定义弹框
 function Toast(msg, duration) {
@@ -129,7 +159,7 @@ $(function () {
 		if (paste_image) {
 			//  上传
 			uploadWay = $("#upLoadway option:selected").val().trim();
-			UP(paste_image, upload_success, upload_error, uploading, uploadWay);
+			uploadFile(paste_image, upload_success, upload_error, uploading, uploadWay);
 		}
 	});
 
@@ -145,7 +175,7 @@ $(function () {
 			return alert('这不是一个图像或音频！')
 		//  上传
 		uploadWay = $("#upLoadway option:selected").val().trim();
-		UP(this_image_file, upload_success, upload_error, uploading, uploadWay);
+		uploadFile(this_image_file, upload_success, upload_error, uploading, uploadWay);
 	});
 
 	var clipboard = new ClipboardJS('.btn');

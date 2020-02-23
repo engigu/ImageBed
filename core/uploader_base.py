@@ -2,6 +2,18 @@ import hashlib
 import aiohttp
 
 
+def init_server_decor(func):
+    def wrapper(self, *args, **kwargs):
+        print('*' * 15)
+        print('start initing', self.name, '...')
+        result = func(self, *args, **kwargs)
+        print('*' * 15)
+
+        return result
+
+    return wrapper
+
+
 class BaseUploder:
     name = 'base_uploader'
 

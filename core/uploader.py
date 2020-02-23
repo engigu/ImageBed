@@ -1,7 +1,7 @@
 import base64
 from aiohttp import FormData
 
-from core.uploader_base import BaseUploder
+from core.uploader_base import BaseUploder, init_server_decor
 from core.utils import Utils
 from config import Config
 
@@ -67,6 +67,7 @@ class GiteeUploader(BaseUploder):
         }
         return await self.send_requstes('GET', **kwargs)
 
+    @init_server_decor
     async def init_server(self, sqlite_model):
         # 初始化
         print('2. starting pull blob images...')
@@ -163,6 +164,7 @@ class CodingUploader(BaseUploder):
         result = await self.send_requstes('GET', **kwargs)
         return result
 
+    @init_server_decor
     async def init_server(self, sqlite_model):
         # 初始化
         print('2. starting pull blob images...')
@@ -176,7 +178,7 @@ class CodingUploader(BaseUploder):
 
 
 # 其他接口
-from core.uploader_other import G360Uploader
+from core.uploader_other import G360Uploader, SouGouUploader
 
 
 __UPLODER_MAPS__ = {
@@ -194,7 +196,8 @@ __UPLODER_MAPS__ = {
         branch=Config.CODING_BRANCH,
         store_path=Config.CODING_STROE_PATH
     ),
-    G360Uploader.name: G360Uploader()
+    G360Uploader.name: G360Uploader(),
+    SouGouUploader.name: SouGouUploader(),
 }
 
 SUPPORT_UPLOAD_WAYS = [name.lower() for name in __UPLODER_MAPS__.keys()]

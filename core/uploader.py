@@ -178,7 +178,7 @@ class CodingUploader(BaseUploder):
 
 
 # 其他接口
-from core.uploader_other import G360Uploader, SouGouUploader
+from core.uploader_other import G360Uploader, SouGouUploader, BaiDuUploader
 
 
 __UPLODER_MAPS__ = {
@@ -198,6 +198,7 @@ __UPLODER_MAPS__ = {
     ),
     G360Uploader.name: G360Uploader(),
     SouGouUploader.name: SouGouUploader(),
+    BaiDuUploader.name: BaiDuUploader(),
 }
 
 SUPPORT_UPLOAD_WAYS = [name.lower() for name in __UPLODER_MAPS__.keys()]

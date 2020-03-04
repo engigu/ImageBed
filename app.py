@@ -14,7 +14,12 @@ SQLITE_MODEL = SQLiteModel()
 
 
 def msg(code=0, msg='ok!', url=''):
-    return sanic_json({'code': code, 'msg': msg, 'url': url})
+
+    return sanic_json(
+        {'code': code, 'msg': msg, 'url': url},
+        headers={'X-Served-By': 'sanic', 'Access-Control-Allow-Origin': '*'},
+        status=200
+    )
 
 
 @app.route("/api/upload", methods=['POST'])
@@ -42,7 +47,8 @@ async def upload(request):
         raw_suffix = pic_file.name.split('.')[-1]
         file_name = '%s.%s' % (file_hash, raw_suffix)
 
-        record = SQLITE_MODEL.get_one_record(name=file_name, upload_way=upload_way)
+        record = SQLITE_MODEL.get_one_record(
+            name=file_name, upload_way=upload_way)
         if record:
             # 之前有记录
             return msg(msg='之前上传过哟～', url=await uploader.format_pic_url(file_name))
@@ -59,6 +65,6 @@ async def upload(request):
         show_msg = '内部错误！error：%s' % str(e)
         return msg(code=-1, msg=show_msg, url=show_msg)
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT, workers=Config.API_SERVER_WORKERS)
+    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT,
+            workers=Config.API_SERVER_WORKERS)

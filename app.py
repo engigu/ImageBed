@@ -19,8 +19,6 @@ def msg(code=0, msg='ok!', url=''):
         {'code': code, 'msg': msg, 'url': url},
         headers={
             'X-Served-By': 'sanic',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': 'true'
         },
         status=200
     )

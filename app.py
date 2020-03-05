@@ -2,7 +2,7 @@ import hashlib
 import base64
 import aiohttp
 from sanic import Sanic
-from sanic.response import json as sanic_json
+from sanic import response
 
 from config import Config
 from core.model import SQLiteModel
@@ -15,9 +15,13 @@ SQLITE_MODEL = SQLiteModel()
 
 def msg(code=0, msg='ok!', url=''):
 
-    return sanic_json(
+    return response.json(
         {'code': code, 'msg': msg, 'url': url},
-        headers={'X-Served-By': 'sanic', 'Access-Control-Allow-Origin': '*'},
+        headers={
+            'X-Served-By': 'sanic',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true'
+        },
         status=200
     )
 

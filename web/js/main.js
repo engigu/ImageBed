@@ -46,7 +46,7 @@ function uploadFile(f, success, error, upload_func, uploadWay) {
 	} // 注册位置需要在 open send 之前， 同时需要异步
 
 	x.open('POST', '/api/upload', true);
-	x.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	// x.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	x.send(file);
 
 }

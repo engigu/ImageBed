@@ -37,7 +37,7 @@ git clone https://github.com/EngiGu/imagebed.git
 ```shell
 cp config.py.sample config.py
 ```
-更改`config.py`里的配置，修改参见下面的说明
+更改`config.py`里的配置，修改参见下面的说明(需要什么就配置什么，如果不配置, 免费接口也是可以使用的)
 
 1. 整个项目一起运行(**推荐**)
 

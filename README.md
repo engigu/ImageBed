@@ -29,11 +29,16 @@
   - 更多详见`requirements.txt`
 
 
-## 说明
-先拉取项目, `cp config.py.sample config.py` ,更改`config.py`里的配置，修改参见下面的说明
+## 运行
+先拉取项目
 ```shell
 git clone https://github.com/EngiGu/imagebed.git
 ```
+```shell
+cp config.py.sample config.py
+```
+更改`config.py`里的配置，修改参见下面的说明
+
 1. 整个项目一起运行(**推荐**)
 
     a. 启动命令

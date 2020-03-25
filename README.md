@@ -1,7 +1,7 @@
 # ImageBed
 
-![image](https://ps.ssl.qhmsg.com/t028f522be60483b180.jpg)
-![image](https://ps.ssl.qhmsg.com/t0254198e701f13493f.jpg)
+![image](https://engigu.coding.net/p/imagestore/d/imagestore/git/raw/back/store/d30f3bb9c3e0598dcc4ea92970b343af.png)
+
 写`Markdown`的时候总是要做图片的引用，使用`github`速度又不是很友好，看到国内代码托管平台`gitee`， 有`openapi`([`gitee`.`swagger`](https://gitee.com/api/v5/swagger))可以调用，于是写了这个基于`仓库`的图床，主要放一些自己文字里的图片。
 
 页面很low，可以只跑api, 后端框架使用`sanic`，自己也是第一次使用这个异步框架。
@@ -10,7 +10,7 @@
 
 现在已经支持国内的`gitee`和`coding`, 适合做博文和文章图片引用，并且会自动存在仓库做保存。
 
-加入一些不用在意质量的免费接口， 平时水图用。
+加入一些不用在意质量的免费接口(主要是各大厂的免费图片存储)， 平时水图用。
 
 欢迎大家提`issue`
 
@@ -29,11 +29,16 @@
   - 更多详见`requirements.txt`
 
 
-## 说明
-先拉取项目, `cp config.py.sample config.py` ,更改`config.py`里的配置，修改参见下面的说明
+## 运行
+先拉取项目
 ```shell
 git clone https://github.com/EngiGu/imagebed.git
 ```
+```shell
+cp config.py.sample config.py
+```
+更改`config.py`里的配置，修改参见下面的说明(需要什么就配置什么，如果不配置, 免费接口也是可以使用的)
+
 1. 整个项目一起运行(**推荐**)
 
     a. 启动命令

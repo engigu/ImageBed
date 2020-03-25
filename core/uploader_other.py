@@ -142,3 +142,46 @@ class BaiDuUploader(BaseUploder):
         # 初始化
         print('2. starting pull blob images...')
         print('all done.')
+
+
+class AliUploader(BaseUploder):
+    name = 'ali'
+
+    def __init__(self, ):
+        super().__init__()
+
+    async def format_pic_url(self, filename):
+        return ''
+
+    async def upload(self, file, filename, raw_filename):
+        # file 二进制文件
+        data = FormData()
+        data.add_field('file', file, filename=filename)
+        data.add_field('name', filename)
+        data.add_field('scene', 'aeMessageCenterV2ImageRule')
+
+        kwargs = {
+            'url': 'https://kfupload.alibaba.com/mupload',
+            'data': data,
+            'headers': {
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36",
+            },
+        }
+        return await self.send_requstes('POST', return_json=True, **kwargs)
+
+    async def deal_upload_result(self, result, filename):
+        # 处理上传结果
+        url = result.get('url', None)
+        if not url:
+            # 正则匹配为空list
+            raise NameError(f'{self.name}没有返回图片名！')
+        # url = await self.format_pic_url(sign)
+        # 结果正常
+        need_add_record = False
+        return 0, '上传成功！', url, need_add_record
+
+    @init_server_decor
+    async def init_server(self, sqlite_model):
+        # 初始化
+        print('2. starting pull blob images...')
+        print('all done.')

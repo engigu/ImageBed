@@ -23,7 +23,12 @@ def msg(code=0, msg='ok!', url=''):
         status=200
     )
 
-
+app.static('/', './web/index.html')
+app.static('/js', './web/js')
+app.static('/css', './web/css')
+app.static('/images', './web/images')
+app.static('/favicon.ico', './web/favicon.ico')
+    
 @app.route("/api/upload", methods=['POST'])
 async def upload(request):
     try:

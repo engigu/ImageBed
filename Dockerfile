@@ -22,4 +22,4 @@ COPY . /app
 WORKDIR /app
 RUN chmod +x /app/docker-entrypoint.sh
 
-ENTRYPOINT ["sh", "-c" , "/app/docker-entrypoint.sh"]
+ENTRYPOINT ["sh", "/app/docker-entrypoint.sh"]

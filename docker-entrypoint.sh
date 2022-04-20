@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cd  /app
 python init_server.py

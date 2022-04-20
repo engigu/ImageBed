@@ -13,8 +13,9 @@ async def main_steps():
     # 2. 拉取出仓库目录下已经存在的文件, 将记录插入sqlite
     SQL_MODEL = SQLiteModel()
     for uploader in __UPLODER_MAPS__.values():
-        await uploader.init_server(sqlite_model=SQL_MODEL)
-
+        if uploader.name  =='github':
+            await uploader.init_server(sqlite_model=SQL_MODEL)
+        pass
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()

@@ -29,11 +29,11 @@ class BaseUploder:
         return hashlib.md5(file).hexdigest()
 
     async def format_pic_url(self, filename):
-        pass
+        raise NotImplementedError
 
-    async def upload(self, file, filename):
-        pass
+    async def upload(self, file, filename, raw_filename):
+        raise NotImplementedError
 
-    async def deal_upload_result(self, result):
+    async def deal_upload_result(self, result, filename):
         # 处理上传结果
-        pass
+        raise NotImplementedError

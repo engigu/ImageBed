@@ -83,7 +83,7 @@ cp config.py.sample config.py
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     GITEE_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    GITEE_STROE_PATH = 'your/images/path'
+    GITEE_STORE_PATH = 'your/images/path'
     ############## GITEE配置 ##############
 
     ############## Coding配置 ##############
@@ -96,7 +96,7 @@ cp config.py.sample config.py
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     CODING_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    CODING_STROE_PATH = 'your/images/path'
+    CODING_STORE_PATH = 'your/images/path'
     ############## Coding配置 #############
 ```
 

@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 .vscode/
+.idea/
 sqlite_db
 sqlite.db
 config.py

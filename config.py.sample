@@ -1,5 +1,19 @@
 class Config:
 
+    ############## GITHUB配置 ##############
+    # Github 用户授权码, access_token获取参见github个人设置
+    GITHUB_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxx'
+    # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
+    GITHUB_OWNER = 'xxxx'
+    # repo 仓库名字
+    GITHUB_REPO = 'xxxx'
+    # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
+    GITHUB_BRANCH = 'xxxxx'
+    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
+    GITHUB_STORE_PATH = '/'
+    IS_USR_JSDELIVR = 1
+    ############## Coding配置 ##############
+
     ############## GITEE配置 ##############
     # GITEE 用户授权码, 获取请打开 https://gitee.com/api/v5/swagger 授权复制出现的access_token
     GITEE_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxx'
@@ -10,7 +24,7 @@ class Config:
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     GITEE_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    GITEE_STROE_PATH = 'your/images/path'
+    GITEE_STORE_PATH = 'your/images/path'
     ############## GITEE配置 ##############
 
     ############## Coding配置 ##############
@@ -23,7 +37,7 @@ class Config:
     # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
     CODING_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
-    CODING_STROE_PATH = 'your/images/path'
+    CODING_STORE_PATH = 'your/images/path'
     ############## Coding配置 ##############
 
     ############## API_SERVER配置 ##############

@@ -7,7 +7,7 @@ from sanic import response
 from config import Config
 from core.model import SQLiteModel
 from core.utils import Utils
-from core.uploader import __UPLODER_MAPS__, SUPPORT_UPLOAD_WAYS
+from core.loader import __UPLODER_MAPS__, SUPPORT_UPLOAD_WAYS
 
 app = Sanic(__name__)
 SQLITE_MODEL = SQLiteModel()

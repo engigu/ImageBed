@@ -20,5 +20,6 @@ EXPOSE 8000
 
 COPY . /app
 WORKDIR /app
+RUN chmod +x /app/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]

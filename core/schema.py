@@ -50,7 +50,8 @@ def init_sqlite():
     path = Config.SQLITE_URI.split('sqlite:///')[-1]
     db_path = '/'.join(path.split('/')[:-1])
     if os.path.exists(path):
-        os.remove(path)
+        # os.remove(path)
+        pass
     else:
         if not os.path.exists(db_path):
             os.makedirs(db_path)

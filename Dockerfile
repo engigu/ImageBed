@@ -21,4 +21,4 @@ EXPOSE 8000
 COPY . /app
 WORKDIR /app
 
-CMD ["python", "-u", "app.py"]
+ENTRYPOINT ["docker-entrypoint.sh"]

@@ -1,6 +1,3 @@
-import hashlib
-import base64
-import aiohttp
 from sanic import Sanic
 from sanic import response
 
@@ -14,7 +11,6 @@ SQLITE_MODEL = SQLiteModel()
 
 
 def msg(code=0, msg='ok!', url=''):
-
     return response.json(
         {'code': code, 'msg': msg, 'url': url},
         headers={
@@ -23,12 +19,14 @@ def msg(code=0, msg='ok!', url=''):
         status=200
     )
 
+
 app.static('/', './web/index.html')
 app.static('/js', './web/js')
 app.static('/css', './web/css')
 app.static('/images', './web/images')
 app.static('/favicon.ico', './web/favicon.ico')
-    
+
+
 @app.route("/api/upload", methods=['POST'])
 async def upload(request):
     try:
@@ -72,6 +70,10 @@ async def upload(request):
         show_msg = '内部错误！error：%s' % str(e)
         return msg(code=-1, msg=show_msg, url=show_msg)
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=Config.API_SERVER_PORT,
-            workers=Config.API_SERVER_WORKERS)
+    app.run(
+        host="0.0.0.0",
+        port=Config.API_SERVER_PORT,
+        workers=Config.API_SERVER_WORKERS
+    )

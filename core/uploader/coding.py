@@ -8,12 +8,12 @@
 
 from aiohttp import FormData
 
-from core.uploader_base import BaseUploder, init_server_decor
-from core.utils import Utils
+from core.uploader_base import BaseUploader, init_server_decor
 
 
-class CodingUploader(BaseUploder):
+class CodingUploader(BaseUploader):
     name = 'coding'
+    is_repo = True
 
     def __init__(self, token, owner, repo, branch, store_path):
         self.token = token
@@ -51,17 +51,21 @@ class CodingUploader(BaseUploder):
 
     async def upload(self, file, filename, raw_filename):
         # file 二进制文件
+        # filename  -> fullname
+        pices = filename.split('/')
+        filename = pices[-1]
+        pre_path = '/'.join(pices[:-1])
         lastCommitSha = await self.get_last_commit_sha()
         data = FormData()
         data.add_field('file', file, filename=filename)
-        data.add_field('message', "upload %s at %s" %
-                       (raw_filename, Utils.now(return_datetime=False)))
+        data.add_field('message', self.format_upload_info(filename))
         data.add_field('lastCommitSha', lastCommitSha)
         data.add_field('newRef', '')
+
         kwargs = {
-            'url': 'https://{owner}.coding.net/api/user/{owner}/project/{repo}/depot/{repo}/git/upload/{branch}/{path}'.format(
-                owner=self.owner, repo=self.repo, path=self.store_path, branch=self.branch
-            ),
+            'url': 'https://{owner}.coding.net/api/user/{owner}/project/{repo}/depot/{repo}/git/upload/{branch}/{path}/{pre_path}'.format(
+                owner=self.owner, repo=self.repo, path=self.store_path, branch=self.branch, pre_path=pre_path
+            ).replace('///', '/'),
             'data': data,
             'headers': self.headers,
         }
@@ -95,14 +99,9 @@ class CodingUploader(BaseUploder):
         result = await self.send_requstes('GET', **kwargs)
         return result
 
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
+    async def do_data(self):
         result = await self.get_coding_tree_blob_file()
-        i = 0
-        for r in result['data']['files']:
-            sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
-            i += 1
-            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
-        print('\nall done.', )
+        return [
+            {'name': file['name'], 'fullname': file['path']}
+            for file in result['data']['files']
+        ]

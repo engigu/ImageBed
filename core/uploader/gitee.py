@@ -8,12 +8,12 @@
 
 import base64
 
-from core.uploader_base import BaseUploder, init_server_decor
-from core.utils import Utils
+from core.uploader_base import BaseUploader, init_server_decor
 
 
-class GiteeUploader(BaseUploder):
+class GiteeUploader(BaseUploader):
     name = 'gitee'
+    is_repo = True
 
     def __init__(self, access_token, owner, repo, branch, store_path):
         self.access_token = access_token
@@ -43,7 +43,7 @@ class GiteeUploader(BaseUploder):
             'data': {
                 "access_token": self.access_token,
                 "content": file_content,
-                "message": "upload %s at %s" % (raw_filename, Utils.now(return_datetime=False)),
+                "message": self.format_upload_info(filename),
                 "branch": self.branch
             }
         }
@@ -74,15 +74,9 @@ class GiteeUploader(BaseUploder):
         }
         return await self.send_requstes('GET', **kwargs)
 
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
+    async def do_data(self):
         result = await self.get_gitee_all_blob_tree()
-        i = 0
-        for r in result:
-            sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
-            i += 1
-            print(
-                '2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
-        print('\nall done.', )
+        return [
+            {'name': file['name'], 'fullname': file['path']}
+            for file in result
+        ]

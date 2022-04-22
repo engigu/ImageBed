@@ -51,19 +51,19 @@ async def upload(request):
         file_hash = await uploader.generate_file_hash(pic_file.body)
         raw_suffix = pic_file.name.split('.')[-1]
         file_name = '%s.%s' % (file_hash, raw_suffix)
+        fullname = await uploader.generate_fullname(file_name)
 
-        record = SQLITE_MODEL.get_one_record(
-            name=file_name, upload_way=upload_way)
+        record = SQLITE_MODEL.get_one_record(name=file_name, upload_way=upload_way)
         if record:
             # 之前有记录
-            return msg(msg='之前上传过哟～', url=await uploader.format_pic_url(file_name))
+            return msg(msg='之前上传过哟～', url=await uploader.format_pic_url(record.fullname))
 
         # 上传
-        result = await uploader.upload(file=pic_file.body, filename=file_name, raw_filename=pic_file.name)
-        code, show_msg, url, need_add_record = await uploader.deal_upload_result(result, filename=file_name)
+        result = await uploader.upload(file=pic_file.body, filename=fullname, raw_filename=pic_file.name)
+        code, show_msg, url, need_add_record = await uploader.deal_upload_result(result, filename=fullname)
         if need_add_record:
             # 添加记录
-            SQLITE_MODEL.add_one_record(name=file_name, upload_way=upload_way)
+            SQLITE_MODEL.add_one_record(name=file_name, upload_way=upload_way, fullname=fullname)
 
         return msg(code=code, msg=show_msg, url=url)
     except Exception as e:

@@ -15,10 +15,25 @@ class SQLiteModel:
             return record
 
     # 添加一个record
-    def add_one_record(self, name, upload_way):
+    def add_one_record(self, name, fullname, upload_way):
         with session_scope() as s:
-            s.add(UploadRecord(
-                name=name,
-                upload_way=upload_way,
-                created_at=Utils.now(return_datetime=True)
-            ))
+            record = s.query(UploadRecord).filter(
+                UploadRecord.name == name,
+                UploadRecord.upload_way == upload_way,
+            ).first()
+            if not record:
+                s.add(UploadRecord(
+                    name=name,
+                    fullname=fullname,
+                    upload_way=upload_way,
+                    created_at=Utils.now(return_datetime=True)
+                ))
+
+    @staticmethod
+    def get_fullname_by_name(name, upload_way):
+        with session_scope() as s:
+            record = s.query(UploadRecord.fullname).filter(
+                UploadRecord.name == name,
+                UploadRecord.upload_way == upload_way,
+            ).first()
+            return record

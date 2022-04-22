@@ -6,12 +6,12 @@ import base64
 import re
 from aiohttp import FormData
 
-from core.uploader_base import BaseUploder, init_server_decor
+from core.uploader_base import BaseUploader, init_server_decor
 from core.utils import Utils
 from config import Config
 
 
-class G360Uploader(BaseUploder):
+class G360Uploader(BaseUploader):
     name = '360'
 
     def __init__(self, ):
@@ -39,7 +39,8 @@ class G360Uploader(BaseUploder):
         }
         res_page = await self.send_requstes('POST', return_json=False, **kwargs)
         image_name = re.findall(
-            r'id="initParam" type="text/data" data-query="" data-total="0" data-imgkey="(.*?)" data-tags', res_page, re.S)
+            r'id="initParam" type="text/data" data-query="" data-total="0" data-imgkey="(.*?)" data-tags', res_page,
+            re.S)
         return image_name
 
     async def deal_upload_result(self, result, filename):
@@ -52,14 +53,8 @@ class G360Uploader(BaseUploder):
         need_add_record = False
         return 0, '上传成功！', url, need_add_record
 
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
-        print('all done.')
 
-
-class SouGouUploader(BaseUploder):
+class SouGouUploader(BaseUploader):
     name = 'sougou'
 
     def __init__(self, ):
@@ -92,14 +87,8 @@ class SouGouUploader(BaseUploder):
         need_add_record = False
         return 0, '上传成功！', url, need_add_record
 
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
-        print('all done.')
 
-
-class BaiDuUploader(BaseUploder):
+class BaiDuUploader(BaseUploader):
     name = 'baidu'
 
     def __init__(self, ):
@@ -137,14 +126,8 @@ class BaiDuUploader(BaseUploder):
         need_add_record = False
         return 0, '上传成功！', url, need_add_record
 
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
-        print('all done.')
 
-
-class AliUploader(BaseUploder):
+class AliUploader(BaseUploader):
     name = 'ali'
 
     def __init__(self, ):
@@ -179,9 +162,3 @@ class AliUploader(BaseUploder):
         # 结果正常
         need_add_record = False
         return 0, '上传成功！', url, need_add_record
-
-    @init_server_decor
-    async def init_server(self, sqlite_model):
-        # 初始化
-        print('2. starting pull blob images...')
-        print('all done.')

@@ -8,13 +8,12 @@
 
 import base64
 import hashlib
-
-from core.uploader_base import BaseUploder, init_server_decor
-from core.utils import Utils
+from core.uploader_base import BaseUploader, init_server_decor
 
 
-class GithubUploader(BaseUploder):
+class GithubUploader(BaseUploader):
     name = 'github'
+    is_repo = True
 
     def __init__(self, access_token, owner, repo, branch, store_path, is_use_jsdelivr=True):
         self.access_token = access_token
@@ -30,22 +29,24 @@ class GithubUploader(BaseUploder):
         super().__init__()
 
     async def format_pic_url(self, filename):
+        fullname = filename
+        # fullname = SQLiteModel.get_fullname_by_name(filename, upload_way=self.name)
         if not self.is_use_jsdelivr:
             # https://raw.githubusercontent.com/EngiGu/resources/images/2.txt
-            path = 'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}/{filename}'.format(
+            path = 'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}/{fullname}'.format(
                 owner=self.owner,
                 repo=self.repo,
                 path=self.store_path,
-                filename=filename,
+                fullname=fullname,
                 branch=self.branch
             )
         else:
             # https://cdn.jsdelivr.net/gh/engigu/ReadLogs/static/logviewer.gif
-            path = 'https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{path}/{filename}'.format(
+            path = 'https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{path}/{fullname}'.format(
                 owner=self.owner,
                 repo=self.repo,
                 path=self.store_path,
-                filename=filename,
+                fullname=fullname,
                 branch=self.branch
             )
         return path.replace('///', '/')
@@ -62,13 +63,13 @@ class GithubUploader(BaseUploder):
         # file 二进制文件
         file_content = base64.b64encode(file).decode()
         sha = self.git_blob_hash(file)
-        url = 'https://api.github.com/repos/{owner}/{repo}/contents/{path}/{filename}'.format(
-            owner=self.owner, repo=self.repo, path=self.store_path, filename=filename
+        url = 'https://api.github.com/repos/{owner}/{repo}/contents/{path}/{fullname}'.format(
+            owner=self.owner, repo=self.repo, path=self.store_path, fullname=filename
         ).replace('///', '/')
         kwargs = {
             'url': url,
             'json': {
-                "message": "upload %s at %s" % (raw_filename, Utils.now(return_datetime=False)),
+                "message": self.format_upload_info(filename),
                 "committer": {
                     "name": "image bot",
                     "email": "image_bot@sooko.club"
@@ -109,7 +110,7 @@ class GithubUploader(BaseUploder):
             path = blob.get('path', '')
             filename = path.split("/")[-1]
             if len(filename.split('.')[0]) == 32:
-                result.append({'name': filename})
+                result.append({'name': filename, 'fullname': path})
         return result
 
     async def do_data(self):
@@ -123,8 +124,8 @@ class GithubUploader(BaseUploder):
         print('2. starting pull blob images...')
         result = await self.do_data()
         i = 0
-        for r in result:
-            sqlite_model.add_one_record(name=r['name'], upload_way=self.name)
+        for file in result:
+            sqlite_model.add_one_record(name=file['name'], upload_way=self.name, fullname=file['fullname'])
             i += 1
-            print('2. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
+            print('3.. complete all recrod to sqlite [%s/%s]' % (i, i), end='\r')
         print('\nall done.', )

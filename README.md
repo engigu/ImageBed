@@ -15,7 +15,7 @@
 欢迎大家提`issue`
 
 ##  Release
-
+ - 2022.04.21 支持github+jsdelivr
  - 2020.02.26 添加百度接口
  - 2020.02.23 添加搜狗接口
  - 2020.02.22 加入多个图源切换，加入其他免费接口
@@ -73,6 +73,22 @@ cp config.py.sample config.py
 ## 配置参数说明
 
 ```python
+
+    ############## GITHUB配置 ##############
+    # Github 用户授权码, access_token获取参见github个人设置
+    GITHUB_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxx'
+    # OWNER 仓库所属空间地址(企业、组织或个人的用户名)
+    GITHUB_OWNER = 'xxxx'
+    # repo 仓库名字
+    GITHUB_REPO = 'xxxx'
+    # BRANCH 仓库分支(如果不存在的分支，需要提前建好)
+    GITHUB_BRANCH = 'xxxxx'
+    # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
+    GITHUB_STORE_PATH = '/'
+    IS_USR_JSDELIVR = 1
+    ############## GITHUB配置 ##############
+    
+    
     ############## GITEE配置 ##############
     #  GITEE 用户授权码, 获取请打开 https://gitee.com/profile/personal_access_tokens/new 授权复制出现的access_token
     GITEE_ACCESS_TOKEN = 'xxxxxxxxxxxxxxxxxxxxxxxx'

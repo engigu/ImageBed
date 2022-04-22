@@ -1,10 +1,7 @@
-
 FROM python:3.6.12-slim-stretch
 
 LABEL MAINTAINER="sayheya@qq.com"
-
 ADD requirements.txt /app/requirements.txt
-
 ENV TZ=Asia/Shanghai
 
 RUN sed -i 's@/deb.debian.org/@/mirrors.163.com/@g' /etc/apt/sources.list \
@@ -17,8 +14,8 @@ RUN sed -i 's@/deb.debian.org/@/mirrors.163.com/@g' /etc/apt/sources.list \
     && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8000
-
 COPY . /app
 WORKDIR /app
 
 ENTRYPOINT ["sh", "docker-entrypoint.sh"]
+

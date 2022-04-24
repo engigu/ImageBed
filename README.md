@@ -39,36 +39,35 @@ cp config.py.sample config.py
 ```
 更改`config.py`里的配置，修改参见下面的说明(需要什么就配置什么，如果不配置, 免费接口也是可以使用的)
 
-1. 整个项目一起运行(**推荐**)
+1. docker-compose运行
 
     a. 启动命令
     ```shell
     docker-compose build
     docker-compose up -d
     ```
-    b. 如果是第一次运行，需要执行初始化(以后不用执行)
-    ```shell
-    docker-compose exec imagebed-server sh -c 'python init_server.py'
-    ```
-    c. 启动后访问`ip:9900`端口, 如果需要改动，修改`docker-compose.yml`里的端口
+    b. 如果需要改动端口，修改`docker-compose.yml`  
+    c. 启动后访问`ip:9900`端口
 
-2. 只运行后端`api-server`
+
+3. docker运行
     
-    a. 打包运行
+    a. 运行（端口修改在`docker-entrypoint.sh`）
      ```shell
     docker build -t imagebed-server .
     docker run -d -p 8000:8000 --name imagebed-server imagebed-server
     ```
     如果要把`sqlite`保存在外部，需要挂载`-v {yourpath}:/app/sqlite_db`
     
-    b. 如果是第一次运行，需要执行初始化(以后不用执行)
+    b. 启动后访问`ip:8000`端口
+
+
+4. 手动初始化数据库（仓库文件路径数据同步到本地的数据库）
     ```shell
-    docker-compose exec imagebed-server sh -c 'python init_server.py'
+    docker exec imagebed-server sh -c 'python init_server.py'
     ```
-    c. 请求参数
-    ```curl
-    curl -X POST 'http:/ip:8000/api/upload' -d '{file: (binary)}'
-    ```
+   正常情况下在启动的时候会自动同步
+   
 
 ## 配置参数说明
 

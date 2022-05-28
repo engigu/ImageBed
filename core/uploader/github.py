@@ -15,13 +15,13 @@ class GithubUploader(BaseUploader):
     name = 'github'
     is_repo = True
 
-    def __init__(self, access_token, owner, repo, branch, store_path, user_cdn='jsdelivr'):
+    def __init__(self, access_token, owner, repo, branch, store_path, use_cdn='jsdelivr'):
         self.access_token = access_token
         self.owner = owner.lower()
         self.repo = repo
         self.branch = branch
         self.store_path = store_path
-        self.user_cdn = user_cdn  # jsdelivr CDN加速
+        self.use_cdn = use_cdn  # jsdelivr CDN加速
         self.headers = {
             "Authorization": "token %s" % access_token,
             "Accept": "application/vnd.github.v3+json"
@@ -31,9 +31,9 @@ class GithubUploader(BaseUploader):
     async def format_pic_url(self, filename):
         fullname = filename
         # fullname = SQLiteModel.get_fullname_by_name(filename, upload_way=self.name)
-        if not self.user_cdn:
-            self.user_cdn = 'jsdelivr'
-        cdn = self.user_cdn
+        if not self.use_cdn:
+            self.use_cdn = 'jsdelivr'
+        cdn = self.use_cdn
 
         if cdn == 'jsdelivr':
             # https://cdn.jsdelivr.net/gh/engigu/ReadLogs/static/logviewer.gif

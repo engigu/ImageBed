@@ -11,7 +11,8 @@ class Config:
     GITHUB_BRANCH = 'xxxxx'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     GITHUB_STORE_PATH = '/'
-    IS_USR_JSDELIVR = 1
+    CDN_USE = 'staticaly'
+    # staticaly jsdelivr github
     ############## Coding配置 ##############
 
     ############## GITEE配置 ##############

@@ -15,13 +15,13 @@ class GithubUploader(BaseUploader):
     name = 'github'
     is_repo = True
 
-    def __init__(self, access_token, owner, repo, branch, store_path, is_use_jsdelivr=True):
+    def __init__(self, access_token, owner, repo, branch, store_path, user_cdn='jsdelivr'):
         self.access_token = access_token
         self.owner = owner.lower()
         self.repo = repo
         self.branch = branch
         self.store_path = store_path
-        self.is_use_jsdelivr = is_use_jsdelivr  # jsdelivr CDN加速
+        self.user_cdn = user_cdn  # jsdelivr CDN加速
         self.headers = {
             "Authorization": "token %s" % access_token,
             "Accept": "application/vnd.github.v3+json"
@@ -31,9 +31,22 @@ class GithubUploader(BaseUploader):
     async def format_pic_url(self, filename):
         fullname = filename
         # fullname = SQLiteModel.get_fullname_by_name(filename, upload_way=self.name)
-        if not self.is_use_jsdelivr:
-            # https://raw.githubusercontent.com/EngiGu/resources/images/2.txt
-            path = 'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}/{fullname}'.format(
+        if not self.user_cdn:
+            self.user_cdn = 'jsdelivr'
+        cdn = self.user_cdn
+
+        if cdn == 'jsdelivr':
+            # https://cdn.jsdelivr.net/gh/engigu/ReadLogs/static/logviewer.gif
+            path = 'https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{path}/{fullname}'.format(
+                owner=self.owner,
+                repo=self.repo,
+                path=self.store_path,
+                fullname=fullname,
+                branch=self.branch
+            )
+        elif cdn == 'staticaly':
+            # https://cdn.staticaly.com/gh/engigu/resources/images/2022/05/28/f2a10f482d97c53142301438debe0119.png
+            path = 'https://cdn.staticaly.com/gh/{owner}/{repo}/{branch}/{path}/{fullname}'.format(
                 owner=self.owner,
                 repo=self.repo,
                 path=self.store_path,
@@ -41,8 +54,9 @@ class GithubUploader(BaseUploader):
                 branch=self.branch
             )
         else:
-            # https://cdn.jsdelivr.net/gh/engigu/ReadLogs/static/logviewer.gif
-            path = 'https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{path}/{fullname}'.format(
+            # 默认的github
+            # https://raw.githubusercontent.com/EngiGu/resources/images/2.txt
+            path = 'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}/{fullname}'.format(
                 owner=self.owner,
                 repo=self.repo,
                 path=self.store_path,

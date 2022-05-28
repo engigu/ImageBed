@@ -17,7 +17,7 @@ __UPLODER_MAPS__ = {
         repo=Config.GITHUB_REPO,
         branch=Config.GITHUB_BRANCH,
         store_path=Config.GITHUB_STORE_PATH,
-        is_use_jsdelivr=Config.IS_USR_JSDELIVR
+        is_use_jsdelivr=Config.CDN_USE
     ),
     GiteeUploader.name: GiteeUploader(
         access_token=Config.GITEE_ACCESS_TOKEN,

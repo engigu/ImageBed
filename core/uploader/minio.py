@@ -42,8 +42,7 @@ class MinioUploader(BaseUploader):
     async def upload(self, file, filename, raw_filename):
         # file 二进制文件
         # filename  -> fullname
-
-        return self.minio.put_object(self.bucket, raw_filename, io.BytesIO(file), len(file))
+        return self.minio.put_object(self.bucket, filename, io.BytesIO(file), len(file))
 
     async def deal_upload_result(self, result, filename):
         # 处理上传结果

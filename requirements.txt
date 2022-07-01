@@ -35,3 +35,4 @@ uvloop==0.14.0
 websockets==8.1
 wrapt==1.11.2
 yarl==1.4.2
+minio==7.1.9

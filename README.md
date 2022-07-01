@@ -15,6 +15,7 @@
 欢迎大家提`issue`
 
 ##  Release
+ - 2022.07.01 支持minio
  - 2022.04.21 支持github+jsdelivr
  - 2020.02.26 添加百度接口
  - 2020.02.23 添加搜狗接口
@@ -112,6 +113,19 @@ cp config.py.sample config.py
     CODING_BRANCH = 'branch_name'
     # PATH 分支里的路径(如果要放在一个不存在的路径，最好也提前建好, 如果是根目录写/)
     CODING_STORE_PATH = 'your/images/path'
+    
+    ############## Minio配置 ##############
+    # MINIO token
+    MINIO_ACCESS_TOKEN = 'xxxxx'
+    # MINIO secret
+    MINIO_SECRET = 'xxxxx'
+    # bucket
+    MINIO_BUCKET = 'xxxxx'
+    # server地址
+    MINIO_SERVER = 'xxxxx:19000'
+    MINIO_ALIAS_SERVER = 'xxxxx:19000' #  别名
+    ############## Minio配置 ##############
+    
     ############## Coding配置 #############
 ```
 

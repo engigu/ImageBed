@@ -41,6 +41,18 @@ class Config:
     CODING_STORE_PATH = 'your/images/path'
     ############## Coding配置 ##############
 
+    ############## Minio配置 ##############
+    # MINIO token
+    MINIO_ACCESS_TOKEN = 'xxxxx'
+    # MINIO secret
+    MINIO_SECRET = 'xxxxx'
+    # bucket
+    MINIO_BUCKET = 'xxxxx'
+    # server地址
+    MINIO_SERVER = 'xxxxx:19000'
+    MINIO_ALIAS_SERVER = 'xxxxx:19000' #  别名
+    ############## Minio配置 ##############
+
     ############## API_SERVER配置 ##############
     # 是否只能上传图片文件(启用后端api的格式校验)
     ONLY_UPLOAD_IMG_FILES = True

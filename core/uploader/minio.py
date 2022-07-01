@@ -4,7 +4,7 @@
 # @Author: guq  
 # @Date  : 2022/4/19
 # @Desc  :
-
+import io
 
 from minio import Minio
 
@@ -42,7 +42,7 @@ class MinioUploader(BaseUploader):
         # file 二进制文件
         # filename  -> fullname
 
-        return self.minio.put_object(self.bucket, raw_filename, file, len(file))
+        return self.minio.put_object(self.bucket, raw_filename, io.BytesIO(file), len(file))
 
     async def deal_upload_result(self, result, filename):
         # 处理上传结果

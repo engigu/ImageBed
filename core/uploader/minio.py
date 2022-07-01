@@ -42,7 +42,7 @@ class MinioUploader(BaseUploader):
     async def upload(self, file, filename, raw_filename):
         # file 二进制文件
         # filename  -> fullname
-        raw_suffix = raw_filename.name.split('.')[-1]
+        raw_suffix = raw_filename.split('.')[-1]
         return self.minio.put_object(self.bucket, filename, io.BytesIO(file), len(file), content_type=f"image/{raw_suffix}")
 
     async def deal_upload_result(self, result, filename):

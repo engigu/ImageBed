@@ -3,6 +3,7 @@ from config import Config
 from core.uploader.gitee import GiteeUploader
 from core.uploader.github import GithubUploader
 from core.uploader.coding import CodingUploader
+from core.uploader.minio import MinioUploader
 
 # 其他接口
 from core.uploader_other import (
@@ -32,6 +33,12 @@ __UPLODER_MAPS__ = {
         repo=Config.CODING_REPO,
         branch=Config.CODING_BRANCH,
         store_path=Config.CODING_STORE_PATH
+    ),
+    MinioUploader.name: MinioUploader(
+        token=Config.MINIO_ACCESS_TOKEN,
+        secret=Config.MINIO_SECRET,
+        bucket=Config.MINIO_BUCKET,
+        server=Config.MINIO_SERVER,
     ),
     G360Uploader.name: G360Uploader(),
     SouGouUploader.name: SouGouUploader(),

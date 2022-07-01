@@ -15,11 +15,12 @@ class MinioUploader(BaseUploader):
     name = 'minio'
     is_repo = False
 
-    def __init__(self, token, secret, bucket, server):
+    def __init__(self, token, secret, bucket, server, alias_server):
         self.access_token = token
         self.secret = secret
         self.bucket = bucket
         self.server = server
+        self.alias_server = alias_server
         self.minio = self.__init_server()
         super().__init__()
 
@@ -33,7 +34,7 @@ class MinioUploader(BaseUploader):
 
     async def format_pic_url(self, filename):
         return 'https://{server}/{bucket}/{filename}'.format(
-            server=self.server,
+            server=self.server if not self.alias_server else self.alias_server,
             bucket=self.bucket,
             filename=filename,
         )

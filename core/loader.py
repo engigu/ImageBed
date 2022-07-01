@@ -39,6 +39,7 @@ __UPLODER_MAPS__ = {
         secret=Config.MINIO_SECRET,
         bucket=Config.MINIO_BUCKET,
         server=Config.MINIO_SERVER,
+        alias_server=Config.MINIO_ALIAS_SERVER,
     ),
     G360Uploader.name: G360Uploader(),
     SouGouUploader.name: SouGouUploader(),

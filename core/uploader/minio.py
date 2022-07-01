@@ -13,7 +13,7 @@ from core.uploader_base import BaseUploader, init_server_decor
 
 class MinioUploader(BaseUploader):
     name = 'minio'
-    is_repo = False
+    is_repo = True
 
     def __init__(self, token, secret, bucket, server, alias_server):
         self.access_token = token
